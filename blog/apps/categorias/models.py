@@ -7,6 +7,6 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
-    class Meta:
+    class Meta: #Orden ascendente (a-z) por campo nombre
         verbose_name_plural = "Categorías"
         ordering = ['nombre']
