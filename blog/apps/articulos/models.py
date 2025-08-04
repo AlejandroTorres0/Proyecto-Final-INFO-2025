@@ -14,10 +14,14 @@ class Articulo(models.Model):
     contenido = models.TextField()
     categoria = models.ForeignKey(Categoria, on_delete = models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)   
+    resumen = models.CharField(max_length=350, null = True)
 
     def __str__(self):
         return self.titulo
     
+    def misComentarios(self):
+        return self.comentario_set.all()
+
 class LikeArticulo(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, related_name='likes')
