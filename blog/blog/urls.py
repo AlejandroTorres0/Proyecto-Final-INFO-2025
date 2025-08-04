@@ -8,10 +8,14 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     #1* Parametro, que es la url
     #2* Parametro, que es la vista
     #3* Parametro, que es el nombre del path
-    path('', views.Home, name = "path_home"),
+
+    path('', views.Index, name = "path_index"),
+
+
     #Incluir las apps
     path('Articulos/', include('apps.articulos.urls')),
     #path('Usuarios/', include('usuarios.urls')),

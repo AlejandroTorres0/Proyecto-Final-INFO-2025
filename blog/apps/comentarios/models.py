@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from articulos.models import Articulo
+from apps.articulos.models import Articulo
 
 # Create your models here.
 class Comentario(models.Model):
