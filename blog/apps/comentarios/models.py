@@ -1,17 +1,26 @@
 from django.db import models
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 from articulos.models import Articulo
 
 # Create your models here.
 class Comentario(models.Model):
 
     #ATRIBUTOS del COMENTARIO
-    usuario = models.ForeignKey(Usuario, on_delete= models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete= models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     contenido = models.CharField(max_length=250)
-    likes = models.IntegerField()
     creado = models.DateTimeField(auto_now_add=True)    
     modificado = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.texto #podria ser nombre de usuario y fecha nomas
+        return self.contenido
+
+class LikeComentario(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    comentario = models.ForeignKey(Comentario, on_delete=models.CASCADE, related_name='likes')
+    likeado_en = models.DateTimeField(auto_now_add = True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['usuario', 'comentario'], name='unique_like_comentario')
+        ]
