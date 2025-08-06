@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Articulo
+from .models import Categoria
 from django.core.paginator import Paginator 
 
 # Create your views here.
@@ -10,7 +11,7 @@ def Listar_Articulos(request):
     page = request.GET.get('page')
     articulos_paginados = p.get_page(page)
 
-    articulos_bd = Articulo.objects.all()
+    categorias_bd = Categoria.objects.all()
 
     total_paginas = p.num_pages
     pagina_actual = articulos_paginados.number
@@ -22,7 +23,7 @@ def Listar_Articulos(request):
     rango_paginas = range(principio_bloque, final_bloque)
 
     context = {
-        'articulos':articulos_bd, 
+        'categorias':categorias_bd, 
         'articulos_p': articulos_paginados, 
         'rango_paginas': rango_paginas
     }

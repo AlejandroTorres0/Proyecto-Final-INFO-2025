@@ -35,8 +35,14 @@
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 {% if articulos_p.has_previous %}
-                                    <li class="page-item">
+                                    <li class="page-item active">
                                         <a href="?page={{ articulos_p.previous_page_number }}" class="page-link" aria-label="Previous">
+                                            <i class="ti-angle-left"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link" aria-label="Previous">
                                             <i class="ti-angle-left"></i>
                                         </a>
                                     </li>
@@ -55,8 +61,14 @@
                                 {% endfor %}
 
                                 {% if articulos_p.has_next %}
-                                    <li class="page-item">
+                                    <li class="page-item active">
                                         <a href="?page={{ articulos_p.next_page_number }}" class="page-link" aria-label="Next">
+                                            <i class="ti-angle-right"></i>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link" aria-label="Next">
                                             <i class="ti-angle-right"></i>
                                         </a>
                                     </li>
@@ -87,42 +99,14 @@
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Category</h4>
                             <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Resaurant food</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Travel news</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Modern technology</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Product</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Inspiration</p>
-                                        <p>21</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
+                                {% for c in categorias %}
+                                    <li>
+                                        <a href="#" class="d-flex">
+                                            <p>{{c.nombre}}</p>
+                                            <p>({{c.articulosRelacionados.count}})</p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </aside>
 
