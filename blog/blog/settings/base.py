@@ -9,10 +9,10 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-
+# Redirecciones de login y logout
 from django.urls import reverse_lazy
-LOGIN_REDIRECT_URL = reverse_lazy('path_home')
-LOGOUT_REDIRECT_URL = reverse_lazy('path_home')
+LOGIN_REDIRECT_URL = reverse_lazy('path_index')
+LOGOUT_REDIRECT_URL = reverse_lazy('path_index')
 LOGIN_URL = reverse_lazy('login:path_login')
 
 # Application definition
