@@ -18,8 +18,8 @@ urlpatterns = [
 
     #Incluir las apps
     path('Articulos/', include('apps.articulos.urls')),
-    #path('Usuarios/', include('usuarios.urls')),
-    path('login/', include ('login.urls'))
+    path('Usuarios/', include('apps.usuarios.urls')),
+    #path('login/', include ('login.urls'))
   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
