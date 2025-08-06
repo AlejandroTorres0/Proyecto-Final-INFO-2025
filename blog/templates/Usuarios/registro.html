@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block contenido_cuerpo %}
+    <div class="typography"><h4>Registro de Usuario</h4></div>
+
+    <form method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        {{ form.errors }}
+        
+        <button class="genric-btn danger-border circle" type="submit">Registrar</button>
+
+    </form>
+
+{% endblock contenido_cuerpo %}

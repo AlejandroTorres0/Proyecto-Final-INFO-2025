@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -10,20 +12,19 @@
     <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.ico">
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../static/css/ticker-style.css">
-    <link rel="stylesheet" href="../static/css/flaticon.css">
-    <link rel="stylesheet" href="../static/css/slicknav.css">
-    <link rel="stylesheet" href="../static/css/animate.min.css">
-    <link rel="stylesheet" href="../static/css/magnific-popup.css">
-    <link rel="stylesheet" href="../static/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../static/css/themify-icons.css">
-    <link rel="stylesheet" href="../static/css/slick.css">
-    <link rel="stylesheet" href="../static/css/nice-select.css">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="stylesheet" href="../static/css/responsive.css">
-</head>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ticker-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
 <body>
 <!-- Preloader Start -->
@@ -32,7 +33,7 @@
         <div class="preloader-inner position-relative">
             <div class="preloader-circle"></div>
             <div class="preloader-img pere-text">
-                <img src="../static/img/logo/logo.png" alt="">
+                <img src="{% static 'img/logo/logo.png' %}" alt="">
             </div>
         </div>
     </div>
@@ -67,12 +68,12 @@
                         <!-- Logo -->
                         <div class="col-xl-3 col-lg-3 col-md-3 d-none d-md-block">
                             <div class="logo">
-                                <a href="index.html"><img src="../static/img/logo/logo.png" alt=""></a>
+                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-9">
                             <div class="header-banner f-right ">
-                                <img src="../static/img/gallery/header_card.png" alt="">
+                                <img src="{% static 'img/gallery/header_card.png' %}" alt="">
                             </div>
                         </div>
                     </div>
@@ -84,7 +85,7 @@
                         <div class="col-xl-8 col-lg-8 col-md-12 header-flex">
                             <!-- sticky -->
                             <div class="sticky-logo">
-                                <a href="index.html"><img src="../static/img/logo/logo.png" alt=""></a>
+                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                             <!-- Main-menu -->
                             <div class="main-menu d-none d-md-block">
@@ -96,6 +97,18 @@
                                         <li><a href="Novedades.html">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li>
                                         <li><a href="contactanos.html">Contáctanos</a></li>
+
+                                        {% if user.is_authenticated %}
+                                        <span>{{user.username}}</span>
+                                            <li>
+                                                <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
+                                                    <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                                </form>
+                                            </li>                                            
+                                        {% else %}
+                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
+                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
+                                        {% endif %}
                                     </ul>
                                 </nav>
                             </div>
@@ -103,12 +116,20 @@
                         <div class="col-xl-4 col-lg-4 col-md-4">
                             <div class="header-right f-right d-none d-lg-block">
                                 <!-- Heder social -->
+                                 
+                                 <!--
                                 <ul class="header-social">    
                                     <li><a href="https://www.fb.com/sai4ull"><i class="fab fa-facebook-f"></i></a></li>
                                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                                     <li><a href="#"><i class="fab fa-instagram"></i></a></li>
                                     <li> <a href="#"><i class="fab fa-youtube"></i></a></li>
+                                </ul> -->
+                                <!--
+                                <ul id="navigation">
+                                    <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>                                
                                 </ul>
+                                -->
+
                                 <!-- Search Nav -->
                                 <div class="nav-search search-switch">
                                     <i class="fa fa-search"></i>
@@ -142,7 +163,7 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo">
-                                    <a href="index.html"><img src="../static/img/logo/logo2_footer.png" alt=""></a>
+                                    <a href="index.html"><img src="{% static 'img/logo/logo2_footer.png' %}" alt=""></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
@@ -162,7 +183,7 @@
                             <!-- Popular post -->
                             <div class="whats-right-single mb-20">
                                 <div class="whats-right-img">
-                                    <img src="../static/img/gallery/footer_post1.png" alt="">
+                                    <img src="{% static 'img/gallery/footer_post1.png' %}" alt="">
                                 </div>
                                 <div class="whats-right-cap">
                                     <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
@@ -172,7 +193,7 @@
                             <!-- Popular post -->
                             <div class="whats-right-single mb-20">
                                 <div class="whats-right-img">
-                                    <img src="../static/img/gallery/footer_post2.png" alt="">
+                                    <img src="{% static 'img/gallery/footer_post2.png' %}" alt="">
                                 </div>
                                 <div class="whats-right-cap">
                                     <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
@@ -182,7 +203,7 @@
                             <!-- Popular post -->
                             <div class="whats-right-single mb-20">
                                 <div class="whats-right-img">
-                                    <img src="../static/img/gallery/footer_post3.png" alt="">
+                                    <img src="{% static 'img/gallery/footer_post3.png' %}" alt="">
                                 </div>
                                 <div class="whats-right-cap">
                                     <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
@@ -194,7 +215,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="banner">
-                                <img src="../static/img/gallery/body_card4.png" alt="">
+                                <img src="{% static 'img/gallery/body_card4.png' %}" alt="">
                             </div>
                         </div>
                     </div>
@@ -233,42 +254,42 @@
 <!-- JS here -->
 
     <!-- All JS Custom Plugins Link Here here -->
-    <script src="./../static/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
     <!-- Jquery, Popper, Bootstrap -->
-    <script src="./../static/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="./../static/js/popper.min.js"></script>
-    <script src="./../static/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- Jquery Mobile Menu -->
-    <script src="./../static/js/jquery.slicknav.min.js"></script>
+    <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
 
     <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="./../static/js/owl.carousel.min.js"></script>
-    <script src="./../static/js/slick.min.js"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/slick.min.js' %}"></script>
     <!-- Date Picker -->
-    <script src="./../static/js/gijgo.min.js"></script>
+    <script src="{% static 'js/gijgo.min.js' %}"></script>
     <!-- One Page, Animated-HeadLin -->
-    <script src="./../static/js/wow.min.js"></script>
-    <script src="./../static/js/animated.headline.js"></script>
-    <script src="./../static/js/jquery.magnific-popup.js"></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/animated.headline.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.js' %}"></script>
 
     <!-- Breaking New Pluging -->
-    <script src="./../static/js/jquery.ticker.js"></script>
-    <script src="./../static/js/site.js"></script>
+    <script src="{% static 'js/jquery.ticker.js' %}"></script>
+    <script src="{% static 'js/site.js' %}"></script>
 
     <!-- Scrollup, nice-select, sticky -->
-    <script src="./../static/js/jquery.scrollUp.min.js"></script>
-    <script src="./../static/js/jquery.nice-select.min.js"></script>
-    <script src="./../static/js/jquery.sticky.js"></script>
+    <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
     
     <!-- contact js -->
-    <script src="./../static/js/contact.js"></script>
-    <script src="./../static/js/jquery.form.js"></script>
-    <script src="./../static/js/jquery.validate.min.js"></script>
-    <script src="./../static/js/mail-script.js"></script>
-    <script src="./../static/js/jquery.ajaxchimp.min.js"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+    <script src="{% static 'js/jquery.form.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
     
     <!-- Jquery Plugins, main Jquery -->	
-    <script src="./../static/js/plugins.js"></script>
-    <script src="./../static/js/main.js"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

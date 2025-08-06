@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block contenido_cuerpo %}
+
+    <h4>LOGIN</h4>
+
+    <form method="POST">{% csrf_token %}
+        {{form.errors}}
+
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <button type="sumbit">Aceptar</button>
+
+
+    </form>
+
+    
+    {%endblock contenido_cuerpo %}
