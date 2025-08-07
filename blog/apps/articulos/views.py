@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Articulo
 from .models import Categoria
 from django.core.paginator import Paginator 
+from .forms import ArticuloForm
 
 # Create your views here.
 
@@ -30,3 +31,15 @@ def Listar_Articulos(request):
 
     return render(request, 'articulos/blog.html', context)
 
+
+def Crear_Articulo(request):
+    if request.method == 'POST':
+        form = ArticuloForm(request.POST, request.FILES)
+        if form.is_valid():
+            articulo = form.save(commit=False)
+            articulo.usuario = request.user  # Asigna el usuario actual
+            articulo.save()
+            return redirect('articulos/blog.html')  # Cambia esto por tu URL
+    else:
+        form = ArticuloForm()
+    return render(request, 'articulos/crear_articulo.html', {'form': form})
