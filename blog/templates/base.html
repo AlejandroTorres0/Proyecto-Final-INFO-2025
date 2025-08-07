@@ -99,7 +99,7 @@
                                         <li><a href="contactanos.html">Contáctanos</a></li>
 
                                         {% if user.is_authenticated %}
-                                        <span>{{user.username}}</span>
+                                        <span style="color: white; font-weight: bold; font-style: italic;">{{ user.username }}</span>
                                             <li>
                                                 <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
                                                     <button class="genric-btn danger-border circle" type="submit">Salir</button>

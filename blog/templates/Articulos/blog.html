@@ -21,7 +21,7 @@
                                 </div>
 
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="single-blog.html">
+                                    <a class="d-inline-block" href="{% url 'articulos:path_articulo_detalle' a.id %}">
                                         <h2>{{a.titulo}}</h2>
                                     </a>
                                     <p>{{a.resumen}}</p>
