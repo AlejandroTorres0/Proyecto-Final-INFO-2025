@@ -1,8 +1,8 @@
 from django.urls import path
 from . import views 
 
-app_name = 'Categorias'
+app_name = "categorias"
 
 urlpatterns = [
-    path('categoria', views.categorias, name='path_categorias') 
+    path('Categorias', views.categorias, name="path_ver_categorias") 
 ]

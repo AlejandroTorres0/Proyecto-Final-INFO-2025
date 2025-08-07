@@ -92,9 +92,9 @@
                                 <nav>                  
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
-                                        <li><a href="Sobre_nosotros.html">Nosotros</a></li>
+                                        <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
                                         <li><a href="categoria.html">Categorías</a></li>
-                                        <li><a href="Novedades.html">Novedades</a></li>
+                                        <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li>
                                         <li><a href="contactanos.html">Contáctanos</a></li>
 
