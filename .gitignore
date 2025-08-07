@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+blog/apps/articulos/__pycache__/urls.cpython-313.pyc
+blog/apps/articulos/__pycache__/views.cpython-313.pyc
+*.pyc
