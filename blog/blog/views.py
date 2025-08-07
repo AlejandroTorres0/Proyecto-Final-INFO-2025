@@ -8,3 +8,6 @@ def sobre_nosotros(request):
 
 def novedades(request):
     return render(request, 'Novedades.html')
+
+def contactanos(request):
+    return render(request, 'contactanos.html')
