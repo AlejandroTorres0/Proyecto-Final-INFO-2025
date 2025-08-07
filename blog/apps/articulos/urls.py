@@ -10,4 +10,5 @@ urlpatterns = [
     #3* Parametro, que es el nombre del path
 
     path('Listar', views.Listar_Articulos, name = 'path_listar_articulos'),
+    path('Crear', views.Crear_Articulo, name = 'path_crear_articulo'),
 ]
