@@ -93,18 +93,18 @@
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
                                         <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
-                                        <li><a href="categoria.html">Categorías</a></li>
+                                        <li><a href="{% url 'categorias:path_ver_categorias' %}">Categorías</a></li>
                                         <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li>
                                         <li><a href="{% url 'path_contactanos' %}">Contáctanos</a></li>
 
                                         {% if user.is_authenticated %}
-                                        <span>{{user.username}}</span>
-                                            <li>
-                                                <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                    <button class="genric-btn danger-border circle" type="submit">Salir</button>
-                                                </form>
-                                            </li>                                            
+                                        <span style="font-weight: bold; font-style: italic;">{{user.username}}</span>
+                                        <li>
+                                            <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
+                                                <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                            </form>
+                                        </li>                                          
                                         {% else %}
                                             <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
                                             <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
