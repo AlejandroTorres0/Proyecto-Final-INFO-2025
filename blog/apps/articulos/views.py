@@ -56,7 +56,16 @@ def Detalle_Articulo(request, pk):
                                               
     categorias_bd = Categoria.objects.all()
 
+    #Lógica para mostrar los likes ya likeados
+    comentarios = articulo.misComentarios()
+
+    usuario = request.user 
+    if usuario.is_authenticated: 
+        for comentario in comentarios:
+            comentario.ya_likeado = comentario.likes.filter(usuario=usuario).exists()
+
     context = {
+            'comentarios': comentarios,
             'categorias': categorias_bd,
             'articulo': articulo,
             'articulo_anterior':  articulo_anterior,

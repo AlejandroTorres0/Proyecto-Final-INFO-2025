@@ -24,3 +24,8 @@ class LikeComentario(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['usuario', 'comentario'], name='unique_like_comentario')
         ]
+
+    
+    def __str__(self):
+        contador = self.comentario.likes.count()
+        return f"El comentario: {self.comentario.contenido} tiene: {contador} likes"
