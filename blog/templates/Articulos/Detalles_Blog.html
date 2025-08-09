@@ -24,31 +24,44 @@
                   </div>
                </div>
                <div class="navigation-top">
-                  <div class="d-sm-flex text-center" style="gap: 1.5%">
+                  <div class="d-flex text-center justify-content-between" >
                      {% if user.is_authenticated %}
-                           {% if articulo.ya_likeado %}
-                              <a onclick="toggleLike(this)" href="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
-                                 <img src="{% static 'img/iconos/like.png' %}" 
-                                    alt="Like" 
-                                    class="like-icon"
-                                    cora-vacio="{% static 'img/iconos/like2.png' %}"
-                                    cora-lleno="{% static 'img/iconos/like.png' %}">
-                              </a>
-                           {% else %}
-                              <a onclick="toggleLike(this)" href="{% url 'articulos:path_likear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
-                                 <img src="{% static 'img/iconos/like2.png' %}" 
-                                    alt="Like" 
-                                    class="like-icon"
-                                    cora-vacio="{% static 'img/iconos/like2.png' %}"
-                                    cora-lleno="{% static 'img/iconos/like.png' %}">
-                              </a>
+                           <div class="d-flex justify-content-start text-center">
+                              {% if articulo.ya_likeado %}
+                                 <a onclick="toggleLike(this)" href="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                    <img src="{% static 'img/iconos/like.png' %}" 
+                                       alt="Like" 
+                                       class="like-icon"
+                                       cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                       cora-lleno="{% static 'img/iconos/like.png' %}">
+                                 </a>
+                              {% else %}
+                                 <a onclick="toggleLike(this)" href="{% url 'articulos:path_likear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                    <img src="{% static 'img/iconos/like2.png' %}" 
+                                       alt="Like" 
+                                       class="like-icon"
+                                       cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                       cora-lleno="{% static 'img/iconos/like.png' %}">
+                                 </a>
+                              {% endif %}
+                              <p style="margin-left:20%">{{articulo.likes.count}}</p>
+                           </div>
+                           {% if user.is_staff %}
+                              <div class="d-flex align-items-center justify-content-between" style="margin-top: 1.5%; margin-right: 3%;">
+                                 <div>
+                                    <a href="{% url 'articulos:path_editar_articulo' articulo.pk %}" class="button button-contactForm btn_1 boxed-btn">editar</a>
+                                    <a href="{% url 'articulos:path_eliminar_articulo' articulo.pk %}" class="button button-contactForm btn_1 boxed-btn">eliminar</a>
+                                 </div>
+                              </div>
                            {% endif %}
                      {% else %}
-                        <img src="{% static 'img/iconos/like2.png' %}" 
-                           alt="Like" 
-                           class="like-icon">
+                        <div class="d-flex justify-content-start text-center">
+                           <img src="{% static 'img/iconos/like2.png' %}" 
+                              alt="Like" 
+                              class="like-icon">
+                           <p style="margin-left:20%">{{articulo.likes.count}}</p>
+                        </div>
                      {% endif %}
-                     <p>{{articulo.likes.count}}</p>
                   </div>
                   <div class="navigation-area">
                      <div class="row">

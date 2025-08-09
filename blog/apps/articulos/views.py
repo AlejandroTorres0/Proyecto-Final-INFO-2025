@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .forms import ArticuloForm
+from .forms import ArticuloForm, FormularioEditarArticulo
 from .models import Articulo, Categoria, LikeArticulo
 from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior
 from django.urls import reverse_lazy 
+from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin 
 
 # Create your views here.
-
 def Listar_Articulos(request):
     # Aquí iría la lógica para listar los artículos
 
@@ -86,6 +87,7 @@ def Detalle_Articulo(request, pk):
 
     return render(request, 'articulos/Detalles_Blog.html', context)
 
+@login_required
 def Crear_Articulo(request):
     if request.method == 'POST':
         form = ArticuloForm(request.POST, request.FILES)
@@ -93,10 +95,28 @@ def Crear_Articulo(request):
             articulo = form.save(commit=False)
             articulo.usuario = request.user  # Asigna el usuario actual
             articulo.save()
-            return redirect('articulos/blog.html')  # Cambia esto por tu URL
+            return HttpResponseRedirect(reverse_lazy('articulos:path_listar_articulos'))
     else:
         form = ArticuloForm()
-    return render(request, 'articulos/crear_articulo.html', {'form': form})
+    return render(request, 'Articulos/crear_articulo.html', {'form': form})
+
+class EditarArticulo(UpdateView, LoginRequiredMixin):
+    model = Articulo
+    form_class = FormularioEditarArticulo
+    template_name = 'Articulos/editar_articulo.html'
+
+    #Verificacion de que el comentario es del usuario que hace la request      
+
+    def get_success_url(self):
+        return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.pk})
+
+class EliminarArticulo(DeleteView, LoginRequiredMixin):
+    model = Articulo
+    template_name = 'Articulos/eliminar_articulo.html'
+    #Verificacion de que el comentario es del usuario que hace la request      
+
+    def get_success_url(self):
+        return reverse_lazy('articulos:path_listar_articulos')
 
 @login_required
 def LikearArticulo(request, pk_articulo):
