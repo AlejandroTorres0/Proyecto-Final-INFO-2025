@@ -16,7 +16,7 @@
                      </h2>
                      <ul class="blog-info-link mt-3 mb-4">
                         <li><a href="#"><i class="fa fa-user"></i>{{articulo.categoria}}</a></li>
-                        <li><a href="#"><i class="fa fa-comments"></i>{{articulo.misComentarios.count}} Comments</a></li>
+                        <li><a href="#comentarios"><i class="fa fa-comments"></i>{{articulo.misComentarios.count}} Comentarios</a></li>
                      </ul>
                      <p class="excert">
                         {{articulo.contenido}}
@@ -30,48 +30,24 @@
                      <div class="col-sm-4 text-center my-2 my-sm-0">
                         <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
                      </div>
-                     <ul class="social-icons">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-dribbble"></i></a></li>
-                        <li><a href="#"><i class="fab fa-behance"></i></a></li>
-                     </ul>
                   </div>
                   <div class="navigation-area">
                      <div class="row">
-                        <div
-                           class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
                            {% if articulo_anterior %}
-                           <div class="thumb">
-                              <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
-                                 <img class="img-fluid" src="{{ articulo_anterior.imagen.url }}" alt="">
-                              </a>
-                           </div>
-                           <div class="arrow">
-                              <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
-                                 <span class="lnr text-white ti-arrow-left"></span>
-                              </a>
-                           </div>
-                           <div class="detials">
-                              <p>Prev Post</p>
-                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
-                                    <h4>{{articulo_anterior.titulo}}</h4>
-                                 </a>
-                           </div>   <!-- Default si no hay anterior -->
-                           {% else %}
                               <div class="thumb">
-                                 <a href="#">
-                                    <img class="img-fluid" src="{% static 'img/post/preview.png' %}" alt="">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
+                                    <img class="img-fluid img-ajustada" src="{{ articulo_anterior.imagen.url }}" alt="">
                                  </a>
                               </div>
                               <div class="arrow">
-                                 <a href="#">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
                                     <span class="lnr text-white ti-arrow-left"></span>
                                  </a>
                               </div>
                               <div class="detials">
-                                 <p>Prev Post</p>
-                                    <a href="#">
+                                 <p>Artículo anterior</p>
+                                    <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
                                        <h4>{{articulo_anterior.titulo}}</h4>
                                     </a>
                               </div>
@@ -80,36 +56,20 @@
                         <div
                            class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
                            {% if articulo_siguiente %}
-                           <div class="detials">
-                              <p>Next Post</p>
-                              <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
-                                 <h4>{{articulo_siguiente.titulo}}</h4>
-                              </a>
-                           </div>
-                           <div class="arrow">
-                              <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
-                                 <span class="lnr text-white ti-arrow-right"></span>
-                              </a>
-                           </div>
-                           <div class="thumb">
-                              <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
-                                 <img class="img-fluid" src="{{ articulo_siguiente.imagen.url }}" alt="">
-                              </a>
-                           </div>
-                           {% else %} <!--Default si no hay siguiente-->
                               <div class="detials">
-                                 <p>Next Post</p>
-                                 <a href="#" class="disabled">
+                                 <p>Artículo siguiente</p>
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
+                                    <h4>{{articulo_siguiente.titulo}}</h4>
                                  </a>
                               </div>
                               <div class="arrow">
-                                 <a href="#">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
                                     <span class="lnr text-white ti-arrow-right"></span>
                                  </a>
                               </div>
                               <div class="thumb">
-                                 <a href="#">
-                                    <img class="img-fluid" src="{% static 'img/post/preview.png' %}" alt="">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
+                                    <img class="img-fluid img-ajustada" src="{{ articulo_siguiente.imagen.url }}" alt="">
                                  </a>
                               </div>
                            {% endif %}
@@ -119,17 +79,16 @@
                </div>
                <div class="blog-author">
                   <div class="media align-items-center">
-                     <img src="{{ articulo.usuario.avatar.url }}" alt="">
+                     <img src="{{ articulo.usuario.perfil.avatar.url }}" alt="">
                      <div class="media-body">
+                        <h4>Autor del artículo: </h4>
                         <a href="#">
                            <h4>{{articulo.usuario}}</h4>
                         </a>
-                        <p>Second divided from form fish beast made. Every of seas all gathered use saying you're, he
-                           our dominion twon Second divided from</p>
                      </div>
                   </div>
                </div>
-               <div class="comments-area">
+               <div id="comentarios" class="comments-area">
                   <h4>{{comentarios.count}} Comentarios</h4>
                   {% if user.is_authenticated %}
                      <div class="comment-form">
@@ -161,8 +120,8 @@
                               </p>
                               <div class="d-flex justify-content-between">
                                  <div class="d-flex align-items-center justify-content-between">
-                                    <h5>
-                                       <a href="#">{{c.usuario}}</a>
+                                    <h5 style="margin-bottom: 5px;">
+                                       {{c.usuario}}
                                     </h5>
                                     <p class="date">{{c.creado}}</p>
                                  </div>
