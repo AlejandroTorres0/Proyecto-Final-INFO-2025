@@ -24,12 +24,31 @@
                   </div>
                </div>
                <div class="navigation-top">
-                  <div class="d-sm-flex justify-content-between text-center">
-                     <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
-                        people like this</p>
-                     <div class="col-sm-4 text-center my-2 my-sm-0">
-                        <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
-                     </div>
+                  <div class="d-sm-flex text-center" style="gap: 1.5%">
+                     {% if user.is_authenticated %}
+                           {% if articulo.ya_likeado %}
+                              <a onclick="toggleLike(this)" href="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                 <img src="{% static 'img/iconos/like.png' %}" 
+                                    alt="Like" 
+                                    class="like-icon"
+                                    cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                    cora-lleno="{% static 'img/iconos/like.png' %}">
+                              </a>
+                           {% else %}
+                              <a onclick="toggleLike(this)" href="{% url 'articulos:path_likear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                 <img src="{% static 'img/iconos/like2.png' %}" 
+                                    alt="Like" 
+                                    class="like-icon"
+                                    cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                    cora-lleno="{% static 'img/iconos/like.png' %}">
+                              </a>
+                           {% endif %}
+                     {% else %}
+                        <img src="{% static 'img/iconos/like2.png' %}" 
+                           alt="Like" 
+                           class="like-icon">
+                     {% endif %}
+                     <p>{{articulo.likes.count}}</p>
                   </div>
                   <div class="navigation-area">
                      <div class="row">

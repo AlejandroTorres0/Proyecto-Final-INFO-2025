@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from django.core.paginator import Paginator 
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from .forms import ArticuloForm
-from .models import Articulo, Categoria
+from .models import Articulo, Categoria, LikeArticulo
 from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior
+from django.urls import reverse_lazy 
 
 # Create your views here.
 
@@ -63,6 +64,8 @@ def Detalle_Articulo(request, pk):
     if usuario.is_authenticated: 
         for comentario in comentarios:
             comentario.ya_likeado = comentario.likes.filter(usuario=usuario).exists()
+        
+        articulo.ya_likeado = articulo.likes.filter(usuario=usuario).exists()
 
     context = {
             'comentarios': comentarios,
@@ -85,3 +88,20 @@ def Crear_Articulo(request):
     else:
         form = ArticuloForm()
     return render(request, 'articulos/crear_articulo.html', {'form': form})
+
+@login_required
+def LikearArticulo(request, pk_articulo):
+    usuario = request.user
+    articulo = Articulo.objects.get(pk = pk_articulo)
+    LikeArticulo.objects.create(articulo = articulo, usuario = usuario)
+
+    return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk_articulo} ))
+
+@login_required
+def DeslikearArticulo(request, pk_articulo):
+    usuario = request.user
+    articulo = Articulo.objects.get(pk = pk_articulo)
+    like = LikeArticulo.objects.filter(articulo = articulo, usuario = usuario)
+    like.delete()
+
+    return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk_articulo} ))

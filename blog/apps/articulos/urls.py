@@ -13,4 +13,6 @@ urlpatterns = [
     path('Filtrado/<int:pk>', views.Filtrar_Categoria, name='path_filtrar_categoria'),
     path('Detalle/<int:pk>', views.Detalle_Articulo, name="path_articulo_detalle"),
     path('Crear', views.Crear_Articulo, name = 'path_crear_articulo'),
+    path('LikeArticulo/<int:pk_articulo>', views.LikearArticulo, name="path_likear_articulo"),
+    path('DeslikeArticulo/<int:pk_articulo>', views.DeslikearArticulo, name="path_deslikear_articulo")
 ]
