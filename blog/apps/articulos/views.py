@@ -17,10 +17,13 @@ def Listar_Articulos(request):
     articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
     rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
 
+    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+
     categorias_bd = Categoria.objects.all()
 
     context = {
-        'categorias':categorias_bd, 
+        'categorias':categorias_bd,
+        'articulos_recientes': ultimos_5, 
         'articulos_p': articulos_paginados, 
         'rango_paginas': rango_paginas
     }
@@ -31,7 +34,9 @@ def Filtrar_Categoria(request, pk):
     categoria_filtrada = Categoria.objects.get(pk = pk)
 
     articulos_filtrados = Articulo.objects.filter(categoria = categoria_filtrada)
-    
+
+    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+
     valor_a_ordenar = request.GET.get('orden', None)
     articulos_ordenados = ordenar_articulos(articulos_filtrados, valor_a_ordenar)
 
@@ -42,7 +47,8 @@ def Filtrar_Categoria(request, pk):
 
     context = {
             'categorias': categorias_bd,
-            'articulos_p': articulos_paginados, 
+            'articulos_p': articulos_paginados,
+            'articulos_recientes': ultimos_5, 
             'id_categoria': categoria_filtrada.id,
             'nombre_categoria': categoria_filtrada.nombre,
             'rango_paginas': rango_paginas
@@ -54,7 +60,9 @@ def Detalle_Articulo(request, pk):
     articulo = Articulo.objects.get(pk = pk)
 
     articulo_anterior, articulo_siguiente = obtener_siguiente_anterior(articulo)
-                                              
+
+    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+
     categorias_bd = Categoria.objects.all()
 
     #Lógica para mostrar los likes ya likeados
@@ -71,6 +79,7 @@ def Detalle_Articulo(request, pk):
             'comentarios': comentarios,
             'categorias': categorias_bd,
             'articulo': articulo,
+            'articulos_recientes': ultimos_5,
             'articulo_anterior':  articulo_anterior,
             'articulo_siguiente': articulo_siguiente
     }
