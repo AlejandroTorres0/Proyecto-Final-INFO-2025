@@ -122,7 +122,6 @@
                </div>
                <div id="comentarios" class="comments-area">
                   <h4>{{comentarios.count}} Comentarios</h4>
-                  {% if user.is_authenticated %}
                      <div class="comment-form">
                         <h5 class="mb-4">Deja tu comentario!</h5>
                         <form method= "POST" class="form-contact comment_form w-100 d-flex align-items-end" style="flex-direction: column;" action="{% url 'comentarios:path_comentar' articulo.id %}" id="commentForm">
@@ -138,7 +137,6 @@
                            </div>
                         </form>
                      </div>
-                  {% endif %}
                   {% for c in comentarios %}
                   <div class="comment-list">
                      <div class="single-comment justify-content-between d-flex">
@@ -157,41 +155,47 @@
                                     </h5>
                                     <p class="date">{{c.creado}}</p>
                                  </div>
-                                 {% if user.is_authenticated %}
-                                    {% if request.user == c.usuario %}
-                                       <div class="d-flex align-items-center justify-content-between" style="margin-top: 1.5%; margin-right: 3%;">
-                                          <div class="reply-btn">
-                                             <a href="{% url 'comentarios:path_eliminar_comentario' c.pk %}" class="btn-reply text-uppercase">eliminar</a>
+                                 <div class="d-flex justify-content-between">
+                                    {% if user.is_authenticated %}
+                                       {% if request.user == c.usuario or user.is_staff %}
+                                          <div class="d-flex align-items-center" style="margin-top: 1.5%; margin-left:-10%;">
+                                             <div class="reply-btn">
+                                                <a href="{% url 'comentarios:path_eliminar_comentario' c.pk %}" class="btn-reply text-uppercase">eliminar</a>
+                                             </div>
+                                             <div class="reply-btn">
+                                                <a href="{% url 'comentarios:path_editar_comentario' c.pk %}" class="btn-reply text-uppercase">editar</a>
+                                             </div>
                                           </div>
-                                          <div class="reply-btn">
-                                             <a href="{% url 'comentarios:path_editar_comentario' c.pk %}" class="btn-reply text-uppercase">editar</a>
-                                          </div>
-                                       </div>
+                                       {% endif %}
+                                    <div class="d-flex align-items-center justify-content-center" style="flex-direction: column;">                     
+                                       {% if c.ya_likeado %}
+                                          <a onclick="toggleLike(this)" href="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
+                                             <img src="{% static 'img/iconos/like.png' %}" 
+                                                alt="Like" 
+                                                class="like-icon"
+                                                cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                                cora-lleno="{% static 'img/iconos/like.png' %}">
+                                          </a>
+                                       {% else %}
+                                          <a onclick="toggleLike(this)" href="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
+                                             <img src="{% static 'img/iconos/like2.png' %}" 
+                                                alt="Like" 
+                                                class="like-icon"
+                                                cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                                cora-lleno="{% static 'img/iconos/like.png' %}">
+                                          </a>
+                                       {% endif %}
+                                       <p class="like-info">{{c.likes.count}}</p>
+                                    </div>
                                     {% else %}
-                                       <div class="d-flex align-items-center" style="flex-direction: column; margin-top: 1.5%; margin-right: 3%;">
-                                          <p class="like-info">                     
-                                             {% if c.ya_likeado %}
-                                                <a onclick="toggleLike(this)" href="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
-                                                      <img src="{% static 'img/iconos/like.png' %}" 
-                                                         alt="Like" 
-                                                         class="like-icon"
-                                                         cora-vacio="{% static 'img/iconos/like2.png' %}"
-                                                         cora-lleno="{% static 'img/iconos/like.png' %}">
-                                                </a>
-                                             {% else %}
-                                                <a onclick="toggleLike(this)" href="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
-                                                      <img src="{% static 'img/iconos/like2.png' %}" 
-                                                         alt="Like" 
-                                                         class="like-icon"
-                                                         cora-vacio="{% static 'img/iconos/like2.png' %}"
-                                                         cora-lleno="{% static 'img/iconos/like.png' %}">
-                                                </a>
-                                             {% endif %}
-                                             {{c.likes.count}}
-                                          </p>
+                                       <div class="d-flex justify-content-start text-center">
+                                          <img src="{% static 'img/iconos/like2.png' %}" 
+                                             alt="Like" 
+                                             class="like-icon">
+                                          <p style="margin-left:20%">{{c.likes.count}}</p>
                                        </div>
                                     {% endif %}
-                                 {% endif %}
+                                 </div>
                               </div>
                            </div>
                         </div>

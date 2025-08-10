@@ -10,10 +10,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # Redirecciones de login y logout
-from django.urls import reverse_lazy
-LOGIN_REDIRECT_URL = reverse_lazy('path_index')
-LOGOUT_REDIRECT_URL = reverse_lazy('path_index')
-LOGIN_URL = reverse_lazy('login:path_login')
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/Usuarios/Login/'
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,7 +26,6 @@ INSTALLED_APPS = [
     'apps.comentarios',
     'apps.usuarios',
     'apps.categorias',
-    'apps.login',
     'django_cleanup.apps.CleanupConfig', #Aplicacion para borrar imagenes cuando hay un delete()
 ]
 

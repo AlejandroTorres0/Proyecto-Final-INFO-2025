@@ -1,12 +1,24 @@
 from django.core.paginator import Paginator
 from .models import Articulo 
 
+ORDENES = {
+    'fecha-asc': ['creado'],
+    'fecha-dsc': ['-creado'],
+    'cat-asc': ['categoria'],
+    'cat-dsc': ['-categoria'],
+    'fecha-cat-asc': ['creado', 'categoria'],
+    'fecha-cat-dsc': ['-creado', '-categoria'],
+}
+
 def ordenar_articulos(queryset, orden):
-    if orden == 'asc':
-        return queryset.order_by('creado')
-    elif orden == 'dsc':
-        return queryset.order_by('-creado')
-    return queryset
+    orden_predeterminado = 'fecha-dsc'
+    campos = ORDENES.get(orden)
+    if campos:
+        return queryset.order_by(*campos)
+    else: 
+        #Cuando no se le pasa orden por la url
+        campos = ORDENES.get(orden_predeterminado)
+        return queryset.order_by(*campos)
 
 def paginar_articulos(request, queryset, por_pagina=1, tamano_bloque=6):
     p = Paginator(queryset, por_pagina)

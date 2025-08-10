@@ -8,10 +8,11 @@ from .forms import FormularioEditarComentario
 # Create your views here.
 @login_required
 def Comentar(request, pk):
-    articulo = Articulo.objects.get(pk = pk)
-    usuario = request.user
-    com = request.POST.get('comentario', None)
-    Comentario.objects.create(contenido = com, articulo = articulo,  usuario = usuario)
+    if request.method == 'POST':
+        articulo = Articulo.objects.get(pk = pk)
+        usuario = request.user
+        com = request.POST.get('comentario', None)
+        Comentario.objects.create(contenido = com, articulo = articulo,  usuario = usuario)
 
     return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk} ))
 
@@ -28,7 +29,7 @@ class EditarComentario(UpdateView, LoginRequiredMixin):
 
 class EliminarComentario(DeleteView, LoginRequiredMixin): 
     model = Comentario
-    template_name = 'comentarios/eliminar_comentario.html'
+    template_name = 'Comentarios/eliminar_comentario.html'
 
     #Verificacion de que el comentario es del usuario que hace la request      
 

@@ -99,17 +99,36 @@
                         </aside>
                         
                         <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Ordenar por fecha 
-                            </h4>
+                            <h4 class="widget_title">Ordenar por: </h4>
                             <ul class="list cat-list">
                                 <li>
-                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=asc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=asc{% endif %}" class="d-flex">
-                                        <p>Ascendente</p>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=fecha-asc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=fecha-asc{% endif %}" class="d-flex">
+                                        <p>Fecha: Ascendente</p>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=dsc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=dsc{% endif %}" class="d-flex">
-                                        <p>Descendente</p>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=fecha-dsc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=fecha-dsc{% endif %}" class="d-flex">
+                                        <p>Fecha: Descendente</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=cat-asc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=cat-asc{% endif %}" class="d-flex">
+                                        <p>Categoria: Ascendente</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=cat-dsc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=cat-dsc{% endif %}" class="d-flex">
+                                        <p>Categoria: Descendente</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=fecha-cat-asc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=fecha-cat-asc{% endif %}" class="d-flex">
+                                        <p>Fecha y Categoria: Ascendente</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=fecha-cat-dsc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=fecha-cat-dsc{% endif %}" class="d-flex">
+                                        <p>Fecha y Categoria: Descendente</p>
                                     </a>
                                 </li>
                             </ul>
