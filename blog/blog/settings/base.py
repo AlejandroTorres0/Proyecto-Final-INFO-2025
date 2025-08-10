@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.usuarios',
     'apps.categorias',
     'apps.login',
+    'django_cleanup.apps.CleanupConfig', #Aplicacion para borrar imagenes cuando hay un delete()
 ]
 
 MIDDLEWARE = [

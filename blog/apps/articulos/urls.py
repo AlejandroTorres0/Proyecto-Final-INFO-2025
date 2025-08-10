@@ -16,5 +16,6 @@ urlpatterns = [
     path('Editar/<int:pk>', views.EditarArticulo.as_view(), name = 'path_editar_articulo'),
     path('Eliminar/<int:pk>', views.EliminarArticulo.as_view(), name = 'path_eliminar_articulo'),
     path('LikeArticulo/<int:pk_articulo>', views.LikearArticulo, name="path_likear_articulo"),
-    path('DeslikeArticulo/<int:pk_articulo>', views.DeslikearArticulo, name="path_deslikear_articulo")
+    path('DeslikeArticulo/<int:pk_articulo>', views.DeslikearArticulo, name="path_deslikear_articulo"),
+    path('BuscarArticulos', views.BuscarArticulo, name="path_buscar_articulos")
 ]

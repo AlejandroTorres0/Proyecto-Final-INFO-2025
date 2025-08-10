@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import ArticuloForm, FormularioEditarArticulo
 from .models import Articulo, Categoria, LikeArticulo
-from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior
+from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior, ultimos_n_por_fecha
 from django.urls import reverse_lazy 
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin 
@@ -18,7 +18,7 @@ def Listar_Articulos(request):
     articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
     rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
 
-    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+    ultimos_5 = ultimos_n_por_fecha(5)
 
     categorias_bd = Categoria.objects.all()
 
@@ -29,14 +29,14 @@ def Listar_Articulos(request):
         'rango_paginas': rango_paginas
     }
 
-    return render(request, 'articulos/blog.html', context)
+    return render(request, 'Articulos/blog.html', context)
 
 def Filtrar_Categoria(request, pk):
     categoria_filtrada = Categoria.objects.get(pk = pk)
 
     articulos_filtrados = Articulo.objects.filter(categoria = categoria_filtrada)
 
-    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+    ultimos_5 = ultimos_n_por_fecha(5)
 
     valor_a_ordenar = request.GET.get('orden', None)
     articulos_ordenados = ordenar_articulos(articulos_filtrados, valor_a_ordenar)
@@ -55,22 +55,22 @@ def Filtrar_Categoria(request, pk):
             'rango_paginas': rango_paginas
     }
 
-    return render(request, 'articulos/blog.html', context)
+    return render(request, 'Articulos/blog.html', context)
 
 def Detalle_Articulo(request, pk):
     articulo = Articulo.objects.get(pk = pk)
 
     articulo_anterior, articulo_siguiente = obtener_siguiente_anterior(articulo)
 
-    ultimos_5 = Articulo.objects.order_by('-creado')[:5]
+    ultimos_5 = ultimos_n_por_fecha(5)
 
     categorias_bd = Categoria.objects.all()
 
-    #Lógica para mostrar los likes ya likeados
     comentarios = articulo.misComentarios()
 
     usuario = request.user 
-    if usuario.is_authenticated: 
+    if usuario.is_authenticated:
+        #Lógica para mostrar los likes ya likeados
         for comentario in comentarios:
             comentario.ya_likeado = comentario.likes.filter(usuario=usuario).exists()
         
@@ -104,7 +104,6 @@ class EditarArticulo(UpdateView, LoginRequiredMixin):
     model = Articulo
     form_class = FormularioEditarArticulo
     template_name = 'Articulos/editar_articulo.html'
-
     #Verificacion de que el comentario es del usuario que hace la request      
 
     def get_success_url(self):
@@ -134,3 +133,29 @@ def DeslikearArticulo(request, pk_articulo):
     like.delete()
 
     return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk_articulo} ))
+
+def BuscarArticulo(request):
+    buscado = request.GET.get('buscado', '').strip()
+
+    if buscado:
+        articulos = Articulo.objects.filter(titulo__contains=buscado)
+
+        valor_a_ordenar = request.GET.get('orden', None)
+        articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
+
+        articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
+        rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
+
+        ultimos_5 = ultimos_n_por_fecha(5)
+
+        categorias_bd = Categoria.objects.all()
+        context = {
+            'buscado': buscado,
+            'categorias': categorias_bd,
+            'articulos_recientes': ultimos_5,
+            'articulos_p': articulos_paginados,
+            'rango_paginas': rango_paginas,
+        }
+        return render(request, 'Articulos/blog_busqueda.html', context)
+
+    return HttpResponseRedirect(reverse_lazy('articulos:path_listar_articulos'))

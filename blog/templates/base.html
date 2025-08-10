@@ -242,8 +242,8 @@
 <div class="search-model-box">
     <div class="d-flex align-items-center h-100 justify-content-center">
         <div class="search-close-btn">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Searching key.....">
+        <form action="{% url 'articulos:path_buscar_articulos' %}" class="search-model-form" method="get">
+            <input  name="buscado" type="text" id="search-input" placeholder="Buscar...">
         </form>
     </div>
 </div>

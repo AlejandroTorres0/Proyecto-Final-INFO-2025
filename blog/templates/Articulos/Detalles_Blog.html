@@ -203,20 +203,22 @@
             <div class="col-lg-4">
                <div class="blog_right_sidebar">
                   <aside class="single_sidebar_widget search_widget">
-                        <form action="#">
-                           <div class="form-group">
-                              <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder='Buscar...'
-                                       onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Buscar...'">
-                                    <div class="input-group-append">
-                                       <button class="btns" type="button"><i class="ti-search"></i></button>
-                                    </div>
-                              </div>
+                     <form action="{% url 'articulos:path_buscar_articulos' %}" method="GET">
+                        {% csrf_token %}
+                        <div class="form-group">
+                           <div class="input-group mb-3">
+                                 <input type="text" class="form-control" placeholder='Buscar...'
+                                    onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Buscar...'"  
+                                    name="buscado">
+                                 <div class="input-group-append">
+                                    <button class="btns" type="submit"><i class="ti-search"></i></button>
+                                 </div>
                            </div>
-                           <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                              type="submit">Buscar</button>
-                        </form>
+                        </div>
+                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                           type="submit">Buscar</button>
+                     </form>
                   </aside>
                   <aside class="single_sidebar_widget post_category_widget">
                         <h4 class="widget_title">Categorias</h4>

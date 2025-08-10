@@ -4,7 +4,7 @@ from .models import Articulo
 def ordenar_articulos(queryset, orden):
     if orden == 'asc':
         return queryset.order_by('creado')
-    elif orden == 'desc':
+    elif orden == 'dsc':
         return queryset.order_by('-creado')
     return queryset
 
@@ -34,3 +34,6 @@ def obtener_siguiente_anterior(articulo_actual):
         siguiente = None
 
     return anterior, siguiente
+
+def ultimos_n_por_fecha(num_articulos):
+    return Articulo.objects.order_by('-creado')[:num_articulos]
