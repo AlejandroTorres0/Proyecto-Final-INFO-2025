@@ -52,13 +52,23 @@
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="header-info-left">
                                 <ul>     
-                                    <li class="title"><span class="flaticon-energy"></span> trending-title</li>
-                                    <li>Class property employ ancho red multi level mansion</li>
+                                    <li class="title"><span class="flaticon-energy"></span> Título mas leído</li>
+                                    <li>¡Bitcoin supera su útlimo historico de $120K!</li>
                                 </ul>
                             </div>
                             <div class="header-info-right">
                                 <ul class="header-date">
-                                    <li><span class="flaticon-calendar"></span> +880166 253 232</li>
+                                    {% if user.is_authenticated %}
+                                        <span style="font-weight: bold; font-style: italic;">{{user.username}}</span>
+                                        <li>
+                                            <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
+                                                <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                            </form>
+                                        </li>                                          
+                                        {% else %}
+                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
+                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
+                                        {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -95,12 +105,10 @@
                                 <nav>                  
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
-                                        <li><a href="Sobre_nosotros.html">Nosotros</a></li>
-                                        <li><a href="categoria.html">Categorías</a></li>
-                                        <li><a href="Novedades.html">Novedades</a></li>
-                                        <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li>
-                                        <li><a href="contactanos.html">Contáctanos</a></li>
-
+                                        <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
+                                        <li><a href="{% url 'categorias:path_ver_categorias' %}">Categorías</a></li>
+                                        <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
+                                        <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li> 
                                         {% if user.is_authenticated %} 
                                             {% if user.is_staff %}
                                                 <li><a href="#">Admin</a>
@@ -117,7 +125,7 @@
                                         {% else %}
                                             <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
                                             <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
-                                        {% endif %}
+                                        {% endif %}                    
                                     </ul>
                                 </nav>
                             </div>
@@ -143,12 +151,13 @@
         </div>
     </div>
     <!-- Header End -->
-</header>
+</header>   
     <div class="cuerpo">
         {% block contenido_cuerpo %}
         
         {%endblock contenido_cuerpo %}
     </div>
+    
 <footer>
     <!-- Footer Start-->
     <div class="footer-main footer-bg">

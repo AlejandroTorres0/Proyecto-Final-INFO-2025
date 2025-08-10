@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def Listar_Articulos(request):
+    
     # Aquí iría la lógica para listar los artículos
 
     valor_a_ordenar = request.GET.get('orden', None)
