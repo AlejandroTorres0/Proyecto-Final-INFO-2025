@@ -53,7 +53,7 @@
                             <div class="header-info-left">
                                 <ul>     
                                     <li class="title"><span class="flaticon-energy"></span> Título mas leído</li>
-                                    <li>¡Bitcoin supera su útlimo historico de $120K!</li>
+                                    <li>{{articulos_populares.0.titulo}}</li>
                                 </ul>
                             </div>
                             <div class="header-info-right">
@@ -65,10 +65,11 @@
                                                 <button class="genric-btn danger-border circle" type="submit">Salir</button>
                                             </form>
                                         </li>                                          
-                                        {% else %}
-                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
-                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
-                                        {% endif %}
+                                    {% else %}
+                                        <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
+                                        <li><a>|</a></li>
+                                        <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -122,9 +123,6 @@
                                                         <button class="genric-btn danger-border circle" type="submit">Salir</button>
                                                     </form>
                                                 </li>
-                                        {% else %}
-                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
-                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
                                         {% endif %}                    
                                     </ul>
                                 </nav>
@@ -174,8 +172,8 @@
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
                                         <p class="info1">Lorem ipsum dolor sit amet, nsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-                                        <p class="info2">198 West 21th Street, Suite 721 New York,NY 10010</p>
-                                        <p class="info2">Phone: +95 (0) 123 456 789 Cell: +95 (0) 123 456 789</p>
+                                        <p class="info2">H3504ATE, Arturo Illia 1055, H3504ATE Resistencia, Chaco</p>
+                                        <p class="info2">Teléfono: +0362 15-430-6678</p>
                                         </div>
                                 </div>
                             </div>
@@ -184,38 +182,20 @@
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Popular post</h4>
+                                <h4>Artículos Populares</h4>
                             </div>
+                            {% for a in articulos_populares_footer %}
                             <!-- Popular post -->
                             <div class="whats-right-single mb-20">
                                 <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post1.png' %}" alt="">
+                                    <img style="height: 75px; width:75px;" src="{{a.imagen.url}}" alt="">
                                 </div>
                                 <div class="whats-right-cap">
-                                    <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
+                                    <h4><a href="{% url 'articulos:path_articulo_detalle' a.pk %}">{{a.titulo}}</a></h4>
+                                    <p>{{a.usuario}}  |  {{a.creado}}</p> 
                                 </div>
                             </div>
-                            <!-- Popular post -->
-                            <div class="whats-right-single mb-20">
-                                <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post2.png' %}" alt="">
-                                </div>
-                                <div class="whats-right-cap">
-                                    <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
-                                </div>
-                            </div>
-                            <!-- Popular post -->
-                            <div class="whats-right-single mb-20">
-                                <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post3.png' %}" alt="">
-                                </div>
-                                <div class="whats-right-cap">
-                                    <h4><a href="details.html">Scarlett’s disappointment at latest accolade</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
