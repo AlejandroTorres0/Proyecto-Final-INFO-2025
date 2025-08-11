@@ -59,10 +59,9 @@
                             <div class="header-info-right">
                                 <ul class="header-date">
                                     {% if user.is_authenticated %}
-                                        <span style="font-weight: bold; font-style: italic;">{{user.username}}</span>
                                         <li>
                                             <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                                <button class="genric-btn danger-border circle" type="submit">Cerrar Sesión</button>
                                             </form>
                                         </li>                                          
                                     {% else %}
@@ -99,7 +98,7 @@
                         <div class="col-xl-8 col-lg-8 col-md-12 header-flex">
                             <!-- sticky -->
                             <div class="sticky-logo">
-                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                                <a href="{% url 'path_index' %}"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                             <!-- Main-menu -->
                             <div class="main-menu d-none d-md-block">
@@ -107,7 +106,6 @@
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
                                         <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
-                                        <li><a href="{% url 'categorias:path_ver_categorias' %}">Categorías</a></li>
                                         <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li> 
                                         {% if user.is_authenticated %} 
@@ -115,14 +113,10 @@
                                                 <li><a href="#">Admin</a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'articulos:path_crear_articulo'%}">Crear Artículo</a></li>
+                                                        <li><a href="{% url 'categorias:path_crear_categoria'%}">Crear Categoria</a></li>
                                                     </ul>
                                                 </li>
                                             {% endif %}
-                                                <li>
-                                                    <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                        <button class="genric-btn danger-border circle" type="submit">Salir</button>
-                                                    </form>
-                                                </li>
                                         {% endif %}                    
                                     </ul>
                                 </nav>
@@ -130,7 +124,8 @@
                         </div>             
                         <div class="col-xl-4 col-lg-4 col-md-4 d-flex justify-content-center align-items-center">
                             {% if user.is_authenticated %}
-                                <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 10%;">BIENVENIDO: {{ user.username }}</p>
+                                <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 7%;">
+                                    BIENVENIDO: {{ user.username }}</p>
                             {% endif %}
                             <div class="header-right f-right">
                                 <!-- Search Nav -->
