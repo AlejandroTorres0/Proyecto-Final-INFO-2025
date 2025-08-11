@@ -2,15 +2,17 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .forms import ArticuloForm, FormularioEditarArticulo
 from .models import Articulo, Categoria, LikeArticulo
-from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior, ultimos_n_por_fecha
+from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior, ultimos_n_por_fecha, obtener_n_populares
 from django.urls import reverse_lazy 
 from django.views.generic.edit import UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin 
 
 # Create your views here.
 def Listar_Articulos(request):
-    
     # Aquí iría la lógica para listar los artículos
+    #Base
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
 
     valor_a_ordenar = request.GET.get('orden', None)
     articulos = Articulo.objects.all()
@@ -23,7 +25,12 @@ def Listar_Articulos(request):
 
     categorias_bd = Categoria.objects.all()
 
+
+
     context = {
+        'articulos_populares': populares,
+        'articulos_populares_footer': articulos_populares_footer, 
+
         'categorias':categorias_bd,
         'articulos_recientes': ultimos_5, 
         'articulos_p': articulos_paginados, 

@@ -61,7 +61,7 @@
                                     {% if user.is_authenticated %}
                                         <li>
                                             <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                <button class="genric-btn danger-border circle" type="submit">Cerrar Sesión</button>
+                                                <button style="border:none; background: black;" type="submit">Cerrar Sesión</button>
                                             </form>
                                         </li>                                          
                                     {% else %}
@@ -81,7 +81,7 @@
                         <!-- Logo -->
                         <div class="col-xl-3 col-lg-3 col-md-3 d-none d-md-block">
                             <div class="logo">
-                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                                <a href="{% url 'path_index' %}"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-9">

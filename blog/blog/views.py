@@ -18,6 +18,7 @@ def Index(request):
     context = {
         'articulos_populares': populares,
         'articulos_populares_footer': articulos_populares_footer,
+
         'articulos_recientes': recientes,
         'articulos_aleatorios': articulos_aleatorios,
         'primeros_dos_populares': primeros_populares,
@@ -26,7 +27,15 @@ def Index(request):
     return render(request, 'index.html', context)
 
 def sobre_nosotros(request):
-    return render(request, 'Sobre_nosotros.html')
+    
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
+
+    context = {
+        'articulos_populares': populares,
+        'articulos_populares_footer': articulos_populares_footer,
+    }
+    return render(request, 'Sobre_nosotros.html', context)
 
 def novedades(request):
     categorias_bd = Categoria.objects.all()[:5]
