@@ -131,6 +131,16 @@
                                         <p>Fecha y Categoria: Descendente</p>
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=titulo-asc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=titulo-asc{% endif %}" class="d-flex">
+                                        <p>Titulo: Ascendente</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% if request.path == '/Articulos/Listar' %}{% url 'articulos:path_listar_articulos' %}?orden=titulo-dsc{% else %}{% url 'articulos:path_filtrar_categoria' id_categoria %}?orden=titulo-dsc{% endif %}" class="d-flex">
+                                        <p>Titulo: Descendente</p>
+                                    </a>
+                                </li>
                             </ul>
                         </aside>
 

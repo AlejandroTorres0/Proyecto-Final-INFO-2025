@@ -9,6 +9,8 @@ ORDENES = {
     'cat-dsc': ['-categoria'],
     'fecha-cat-asc': ['creado', 'categoria'],
     'fecha-cat-dsc': ['-creado', '-categoria'],
+    'titulo-asc': ['titulo', '-creado'],
+    'titulo-dsc': ['-titulo', '-creado'],
 }
 
 def ordenar_articulos(queryset, orden):

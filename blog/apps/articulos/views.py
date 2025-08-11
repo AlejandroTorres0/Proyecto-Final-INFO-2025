@@ -10,23 +10,21 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 def Listar_Articulos(request):
     # Aquí iría la lógica para listar los artículos
-    #Base
-    populares = obtener_n_populares(5)
-    articulos_populares_footer = populares[:3]
 
     valor_a_ordenar = request.GET.get('orden', None)
     articulos = Articulo.objects.all()
     articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
 
-    articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
-    rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
+    articulos_paginados = paginar_articulos(request, articulos_ordenados, 2, 6)[0]
+    rango_paginas = paginar_articulos(request, articulos_ordenados, 2, 6)[1]
 
     ultimos_5 = ultimos_n_por_fecha(5)
+    
+    #Base
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
 
     categorias_bd = Categoria.objects.all()
-
-
-
     context = {
         'articulos_populares': populares,
         'articulos_populares_footer': articulos_populares_footer, 
@@ -46,6 +44,10 @@ def Filtrar_Categoria(request, pk):
 
     ultimos_5 = ultimos_n_por_fecha(5)
 
+    #Base
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
+
     valor_a_ordenar = request.GET.get('orden', None)
     articulos_ordenados = ordenar_articulos(articulos_filtrados, valor_a_ordenar)
 
@@ -55,6 +57,8 @@ def Filtrar_Categoria(request, pk):
     categorias_bd = Categoria.objects.all()
 
     context = {
+            'articulos_populares': populares,
+            'articulos_populares_footer': articulos_populares_footer,
             'categorias': categorias_bd,
             'articulos_p': articulos_paginados,
             'articulos_recientes': ultimos_5, 
@@ -69,6 +73,10 @@ def Detalle_Articulo(request, pk):
     articulo = Articulo.objects.get(pk = pk)
 
     articulo_anterior, articulo_siguiente = obtener_siguiente_anterior(articulo)
+
+    #Base
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
 
     ultimos_5 = ultimos_n_por_fecha(5)
 
@@ -85,6 +93,9 @@ def Detalle_Articulo(request, pk):
         articulo.ya_likeado = articulo.likes.filter(usuario=usuario).exists()
 
     context = {
+            'articulos_populares': populares,
+            'articulos_populares_footer': articulos_populares_footer,
+
             'comentarios': comentarios,
             'categorias': categorias_bd,
             'articulo': articulo,
@@ -116,7 +127,17 @@ class EditarArticulo(UpdateView, LoginRequiredMixin):
 
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.pk})
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
+        populares = obtener_n_populares(5)
+        articulos_populares_footer = populares[:3]
+
+        context['articulos_populares'] = populares 
+        context['articulos_populares_footer'] = articulos_populares_footer
+        return context
+    
 class EliminarArticulo(DeleteView, LoginRequiredMixin):
     model = Articulo
     template_name = 'Articulos/eliminar_articulo.html'
@@ -125,6 +146,16 @@ class EliminarArticulo(DeleteView, LoginRequiredMixin):
     def get_success_url(self):
         return reverse_lazy('articulos:path_listar_articulos')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        populares = obtener_n_populares(5)
+        articulos_populares_footer = populares[:3]
+
+        context['articulos_populares'] = populares 
+        context['articulos_populares_footer'] = articulos_populares_footer
+        return context
+    
 @login_required
 def LikearArticulo(request, pk_articulo):
     usuario = request.user
@@ -151,13 +182,19 @@ def BuscarArticulo(request):
         valor_a_ordenar = request.GET.get('orden', None)
         articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
 
-        articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
-        rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
+        articulos_paginados = paginar_articulos(request, articulos_ordenados, 2, 6)[0]
+        rango_paginas = paginar_articulos(request, articulos_ordenados, 2, 6)[1]
 
         ultimos_5 = ultimos_n_por_fecha(5)
 
+        #Base
+        populares = obtener_n_populares(5)
+        articulos_populares_footer = populares[:3]
+        
         categorias_bd = Categoria.objects.all()
         context = {
+            'articulos_populares': populares,
+            'articulos_populares_footer': articulos_populares_footer,
             'buscado': buscado,
             'categorias': categorias_bd,
             'articulos_recientes': ultimos_5,
