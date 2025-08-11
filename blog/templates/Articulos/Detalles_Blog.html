@@ -1,0 +1,300 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contenido_cuerpo %}
+<main>
+   <!--================Blog Area =================-->
+   <section class="blog_area single-post-area section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
+               <div class="single-post">
+                  <div class="feature-img">
+                     <img class="img-fluid" src="{{ articulo.imagen.url }}" alt="">
+                  </div>
+                  <div class="blog_details">
+                     <h2>{{articulo.titulo}}
+                     </h2>
+                     <ul class="blog-info-link mt-3 mb-4">
+                        <li><a href="{% url 'articulos:path_filtrar_categoria' articulo.categoria.pk %}"><i class="fa fa-user"></i>{{articulo.categoria}}</a></li>
+                        <li><a href="#comentarios"><i class="fa fa-comments"></i>{{articulo.misComentarios.count}} Comentarios</a></li>
+                     </ul>
+                     <p class="excert">
+                        {{articulo.contenido}}
+                     </p>
+                  </div>
+               </div>
+               <div class="navigation-top">
+                  <div class="d-flex text-center justify-content-between" >
+                     {% if user.is_authenticated %}
+                           <div class="d-flex justify-content-start text-center">
+                              {% if articulo.ya_likeado %}
+                                 <a onclick="toggleLike(this)" href="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                    <img src="{% static 'img/iconos/like.png' %}" 
+                                       alt="Like" 
+                                       class="like-icon"
+                                       cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                       cora-lleno="{% static 'img/iconos/like.png' %}">
+                                 </a>
+                              {% else %}
+                                 <a onclick="toggleLike(this)" href="{% url 'articulos:path_likear_articulo' articulo.pk %}" deslike="{% url 'articulos:path_deslikear_articulo' articulo.pk %}" like="{% url 'articulos:path_likear_articulo' articulo.pk %}">
+                                    <img src="{% static 'img/iconos/like2.png' %}" 
+                                       alt="Like" 
+                                       class="like-icon"
+                                       cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                       cora-lleno="{% static 'img/iconos/like.png' %}">
+                                 </a>
+                              {% endif %}
+                              <p style="margin-left:20%">{{articulo.likes.count}}</p>
+                           </div>
+                           {% if user.is_staff %}
+                              <div class="d-flex align-items-center justify-content-between" style="margin-top: 1.5%; margin-right: 3%;">
+                                 <div>
+                                    <a href="{% url 'articulos:path_editar_articulo' articulo.pk %}" class="button button-contactForm btn_1 boxed-btn">editar</a>
+                                    <a href="{% url 'articulos:path_eliminar_articulo' articulo.pk %}" class="button button-contactForm btn_1 boxed-btn">eliminar</a>
+                                 </div>
+                              </div>
+                           {% endif %}
+                     {% else %}
+                        <div class="d-flex justify-content-start text-center">
+                           <img src="{% static 'img/iconos/like2.png' %}" 
+                              alt="Like" 
+                              class="like-icon">
+                           <p style="margin-left:20%">{{articulo.likes.count}}</p>
+                        </div>
+                     {% endif %}
+                  </div>
+                  <div class="navigation-area">
+                     <div class="row">
+                        <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                           {% if articulo_anterior %}
+                              <div class="thumb">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
+                                    <img class="img-fluid img-ajustada" src="{{ articulo_anterior.imagen.url }}" alt="">
+                                 </a>
+                              </div>
+                              <div class="arrow">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
+                                    <span class="lnr text-white ti-arrow-left"></span>
+                                 </a>
+                              </div>
+                              <div class="detials">
+                                 <p>Artículo anterior</p>
+                                    <a href="{% url 'articulos:path_articulo_detalle' articulo_anterior.id %}">
+                                       <h4>{{articulo_anterior.titulo}}</h4>
+                                    </a>
+                              </div>
+                           {% endif %}
+                        </div>
+                        <div
+                           class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                           {% if articulo_siguiente %}
+                              <div class="detials">
+                                 <p>Artículo siguiente</p>
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
+                                    <h4>{{articulo_siguiente.titulo}}</h4>
+                                 </a>
+                              </div>
+                              <div class="arrow">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
+                                    <span class="lnr text-white ti-arrow-right"></span>
+                                 </a>
+                              </div>
+                              <div class="thumb">
+                                 <a href="{% url 'articulos:path_articulo_detalle' articulo_siguiente.id %}">
+                                    <img class="img-fluid img-ajustada" src="{{ articulo_siguiente.imagen.url }}" alt="">
+                                 </a>
+                              </div>
+                           {% endif %}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="blog-author">
+                  <div class="media align-items-center">
+                     <img src="{{ articulo.usuario.perfil.avatar.url }}" alt="">
+                     <div class="media-body">
+                        <h4>Autor del artículo: </h4>
+                        <a href="#">
+                           <h4>{{articulo.usuario}}</h4>
+                        </a>
+                     </div>
+                  </div>
+               </div>
+               <div id="comentarios" class="comments-area">
+                  <h4>{{comentarios.count}} Comentarios</h4>
+                     <div class="comment-form">
+                        <h5 class="mb-4">Deja tu comentario!</h5>
+                        <form method= "POST" class="form-contact comment_form w-100 d-flex align-items-end" style="flex-direction: column;" action="{% url 'comentarios:path_comentar' articulo.id %}" id="commentForm">
+                           {% csrf_token %}
+                           <div class="row w-100">
+                              <div class="form-group col-12">
+                                 <input class="form-control" name="comentario" id="comment"
+                                    placeholder="Escribe tu comentario..." maxlength="250"></input>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <button type="submit" class="button button-contactForm btn_1 boxed-btn">Enviar</button>
+                           </div>
+                        </form>
+                     </div>
+                  {% for c in comentarios %}
+                  <div class="comment-list">
+                     <div class="single-comment justify-content-between d-flex">
+                        <div class="user justify-content-between d-flex w-100">
+                           <div class="thumb">
+                              <img src="{{ c.usuario.perfil.avatar.url }}" alt="">
+                           </div>
+                           <div class="desc w-100">
+                              <p class="comment">
+                                 {{c.contenido}}
+                              </p>
+                              <div class="d-flex justify-content-between">
+                                 <div class="d-flex align-items-center justify-content-between">
+                                    <h5 style="margin-bottom: 5px;">
+                                       {{c.usuario}}
+                                    </h5>
+                                    <p class="date">{{c.creado}}</p>
+                                 </div>
+                                 <div class="d-flex justify-content-between">
+                                    {% if user.is_authenticated %}
+                                       {% if request.user == c.usuario or user.is_staff %}
+                                          <div class="d-flex align-items-center" style="margin-top: 1.5%; margin-left:-10%;">
+                                             <div class="reply-btn">
+                                                <a href="{% url 'comentarios:path_eliminar_comentario' c.pk %}" class="btn-reply text-uppercase">eliminar</a>
+                                             </div>
+                                             <div class="reply-btn">
+                                                <a href="{% url 'comentarios:path_editar_comentario' c.pk %}" class="btn-reply text-uppercase">editar</a>
+                                             </div>
+                                          </div>
+                                       {% endif %}
+                                    <div class="d-flex align-items-center justify-content-center" style="flex-direction: column;">                     
+                                       {% if c.ya_likeado %}
+                                          <a onclick="toggleLike(this)" href="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
+                                             <img src="{% static 'img/iconos/like.png' %}" 
+                                                alt="Like" 
+                                                class="like-icon"
+                                                cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                                cora-lleno="{% static 'img/iconos/like.png' %}">
+                                          </a>
+                                       {% else %}
+                                          <a onclick="toggleLike(this)" href="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}" deslike="{% url 'comentarios:path_deslikear_comentario' c.pk articulo.pk %}" like="{% url 'comentarios:path_likear_comentario' c.pk articulo.pk %}">
+                                             <img src="{% static 'img/iconos/like2.png' %}" 
+                                                alt="Like" 
+                                                class="like-icon"
+                                                cora-vacio="{% static 'img/iconos/like2.png' %}"
+                                                cora-lleno="{% static 'img/iconos/like.png' %}">
+                                          </a>
+                                       {% endif %}
+                                       <p class="like-info">{{c.likes.count}}</p>
+                                    </div>
+                                    {% else %}
+                                       <div class="d-flex justify-content-start text-center">
+                                          <img src="{% static 'img/iconos/like2.png' %}" 
+                                             alt="Like" 
+                                             class="like-icon">
+                                          <p style="margin-left:20%">{{c.likes.count}}</p>
+                                       </div>
+                                    {% endif %}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  {% endfor %}
+               </div>
+            </div>
+            <div class="col-lg-4">
+               <div class="blog_right_sidebar">
+                  <aside class="single_sidebar_widget search_widget">
+                     <form action="{% url 'articulos:path_buscar_articulos' %}" method="GET">
+                        {% csrf_token %}
+                        <div class="form-group">
+                           <div class="input-group mb-3">
+                                 <input type="text" class="form-control" placeholder='Buscar...'
+                                    onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = 'Buscar...'"  
+                                    name="buscado">
+                                 <div class="input-group-append">
+                                    <button class="btns" type="submit"><i class="ti-search"></i></button>
+                                 </div>
+                           </div>
+                        </div>
+                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                           type="submit">Buscar</button>
+                     </form>
+                  </aside>
+                  <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Categorias</h4>
+                        <ul class="list cat-list">
+                           {% for c in categorias %}
+                              <li>
+                                 <a href="{% url 'articulos:path_filtrar_categoria' c.pk %}" class="d-flex">
+                                    <p>{{c.nombre}} ({{c.articulosRelacionados.count}})</p>
+                                 </a>
+                              </li>
+                           {% endfor %}
+                        </ul>
+                  </aside>
+                  <aside class="single_sidebar_widget popular_post_widget">
+                     <h3 class="widget_title">Articulos recientes</h3>
+                     {% for a in articulos_recientes %}
+                        <div class="media post_item">
+                           <img class="img-ajustada" src="{{ a.imagen.url }}" alt="post">
+                           <div class="media-body">
+                              <a href="{% url 'articulos:path_articulo_detalle' a.id %}">
+                                 <h3 style="white-space: normal; word-break: break-word; word-wrap: break-word; overflow-wrap: break-word;">{{a.titulo|truncatewords:5}}...</h3>
+                              </a>
+                              <p>{{a.creado}}</p>
+                           </div>
+                        </div>
+                     {% endfor %}
+                  </aside>
+                  <aside class="single_sidebar_widget tag_cloud_widget">
+                     <h4 class="widget_title">Tag Clouds</h4>
+                     <ul class="list">
+                        <li>
+                           <a href="#">project</a>
+                        </li>
+                        <li>
+                           <a href="#">love</a>
+                        </li>
+                        <li>
+                           <a href="#">technology</a>
+                        </li>
+                        <li>
+                           <a href="#">travel</a>
+                        </li>
+                        <li>
+                           <a href="#">restaurant</a>
+                        </li>
+                        <li>
+                           <a href="#">life style</a>
+                        </li>
+                        <li>
+                           <a href="#">design</a>
+                        </li>
+                        <li>
+                           <a href="#">illustration</a>
+                        </li>
+                     </ul>
+                  </aside>
+                  <aside class="single_sidebar_widget newsletter_widget">
+                     <h4 class="widget_title">Suscribite acá!</h4>
+                     <form action="#">
+                        <div class="form-group">
+                           <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                              onblur="this.placeholder = 'Ingresa tu email'" placeholder='Ingresa tu email' required>
+                        </div>
+                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                           type="submit">Suscribirse</button>
+                     </form>
+                  </aside>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!--================ Blog Area end =================-->
+</main>
+{%endblock contenido_cuerpo %}

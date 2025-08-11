@@ -21,7 +21,7 @@ class Articulo(models.Model):
     
     def misComentarios(self):
         return self.comentario_set.all()
-    
+
 class LikeArticulo(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     articulo = models.ForeignKey(Articulo, on_delete=models.CASCADE, related_name='likes')
@@ -31,3 +31,7 @@ class LikeArticulo(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['usuario', 'articulo'], name='unique_like_articulo')
         ]
+    
+    def __str__(self):
+        contador = self.articulo.likes.count()
+        return f"El comentario: {self.articulo.titulo} tiene: {contador} likes"

@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/likes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/imagenes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
 
 <body>
 <!-- Preloader Start -->
@@ -106,28 +109,32 @@
                                         <li><a href="{% url 'categorias:path_ver_categorias' %}">Categorías</a></li>
                                         <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li> 
-                                        
+                                        {% if user.is_authenticated %} 
+                                            {% if user.is_staff %}
+                                                <li><a href="#">Admin</a>
+                                                    <ul class="submenu">
+                                                        <li><a href="{% url 'articulos:path_crear_articulo'%}">Crear Artículo</a></li>
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                                <li>
+                                                    <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
+                                                        <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                                    </form>
+                                                </li>
+                                        {% else %}
+                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
+                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
+                                        {% endif %}                    
                                     </ul>
                                 </nav>
                             </div>
                         </div>             
-                        <div class="col-xl-4 col-lg-4 col-md-4">
-                            <div class="header-right f-right d-none d-lg-block">
-                                <!-- Heder social -->
-                                 
-                                 <!--
-                                <ul class="header-social">    
-                                    <li><a href="https://www.fb.com/sai4ull"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                    <li> <a href="#"><i class="fab fa-youtube"></i></a></li>
-                                </ul> -->
-                                <!--
-                                <ul id="navigation">
-                                    <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>                                
-                                </ul>
-                                -->
-
+                        <div class="col-xl-4 col-lg-4 col-md-4 d-flex justify-content-center align-items-center">
+                            {% if user.is_authenticated %}
+                                <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 10%;">BIENVENIDO: {{ user.username }}</p>
+                            {% endif %}
+                            <div class="header-right f-right">
                                 <!-- Search Nav -->
                                 <div class="nav-search search-switch">
                                     <i class="fa fa-search"></i>
@@ -244,8 +251,8 @@
 <div class="search-model-box">
     <div class="d-flex align-items-center h-100 justify-content-center">
         <div class="search-close-btn">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Searching key.....">
+        <form action="{% url 'articulos:path_buscar_articulos' %}" class="search-model-form" method="get">
+            <input  name="buscado" type="text" id="search-input" placeholder="Buscar...">
         </form>
     </div>
 </div>
@@ -290,5 +297,6 @@
     <!-- Jquery Plugins, main Jquery -->	
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/likes.js' %}"></script>
 </body>
 </html>

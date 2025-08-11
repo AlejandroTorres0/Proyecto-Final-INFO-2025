@@ -19,6 +19,7 @@ urlpatterns = [
     #Incluir las apps
     path('Articulos/', include('apps.articulos.urls')),
     path('Usuarios/', include('apps.usuarios.urls')),
+    path('Comentarios/', include('apps.comentarios.urls')),
     path('Categorias/', include('apps.categorias.urls')),
 
     
