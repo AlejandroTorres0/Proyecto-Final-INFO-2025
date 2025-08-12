@@ -39,7 +39,8 @@ def sobre_nosotros(request):
 
 def novedades(request):
     categorias_bd = Categoria.objects.all()[:5]
-    
+        
+    populares = obtener_n_populares(5)
     articulos_populares_footer = obtener_n_populares(3)
 
     categorias_con_articulos = []
@@ -54,9 +55,7 @@ def novedades(request):
     context = {
         'categorias': categorias_bd,
         'categorias_con_articulos': categorias_con_articulos,
+        'articulos_populares': populares,
         'articulos_populares_footer': articulos_populares_footer
     }
     return render(request, 'Novedades.html', context)   
-
-def contactanos(request):
-    return render(request, 'contactanos.html')

@@ -4,7 +4,7 @@
 
     {%if user.is_authenticated %}
         <div class="mt-40">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 10%;">
                     <h3>Contenido:</h3>

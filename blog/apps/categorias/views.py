@@ -12,7 +12,7 @@ def Crear_Categoria(request):
     populares = obtener_n_populares(5)
     articulos_populares_footer = populares[:3]
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_staff:
         form = CategoriaForm(request.POST, request.FILES)
         if form.is_valid():
             categoria = form.save(commit=False)

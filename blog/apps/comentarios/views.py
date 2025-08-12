@@ -3,8 +3,10 @@ from .models import Comentario, Articulo, LikeComentario
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import FormularioEditarComentario
+from django.http import HttpResponseForbidden
+
 # Create your views here.
 @login_required
 def Comentar(request, pk):
@@ -17,22 +19,30 @@ def Comentar(request, pk):
     return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk} ))
 
 
-class EditarComentario(UpdateView, LoginRequiredMixin): 
+class EditarComentario(UpdateView, LoginRequiredMixin, UserPassesTestMixin): 
     model = Comentario
     form_class = FormularioEditarComentario
     template_name = 'Comentarios/editar_comentario.html'
 
-    #Verificacion de que el comentario es del usuario que hace la request      
-
+    def dispatch(self, request, *args, **kwargs):
+        comentario = self.get_object()
+        if not (comentario.usuario == request.user or request.user.is_staff):
+            return HttpResponseForbidden("No tienes permiso para editar este comentario.")
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.articulo.pk})
 
-class EliminarComentario(DeleteView, LoginRequiredMixin): 
+class EliminarComentario(DeleteView, LoginRequiredMixin, UserPassesTestMixin): 
     model = Comentario
     template_name = 'Comentarios/eliminar_comentario.html'
 
-    #Verificacion de que el comentario es del usuario que hace la request      
-
+    def dispatch(self, request, *args, **kwargs):
+        comentario = self.get_object()
+        if not (comentario.usuario == request.user or request.user.is_staff):
+            return HttpResponseForbidden("No tienes permiso para eliminar este comentario.")
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.articulo.pk})
 

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block contenido_cuerpo %}
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
         <div class="mt-40">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 5%;">
                     <div><h3>ELIMINAR ARTÍCULO</h3></div>

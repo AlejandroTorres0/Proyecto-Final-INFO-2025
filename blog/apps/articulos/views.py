@@ -5,7 +5,8 @@ from .models import Articulo, Categoria, LikeArticulo
 from .utils import ordenar_articulos, paginar_articulos, obtener_siguiente_anterior, ultimos_n_por_fecha, obtener_n_populares
 from django.urls import reverse_lazy 
 from django.views.generic.edit import UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseForbidden
 
 # Create your views here.
 def Listar_Articulos(request):
@@ -15,8 +16,8 @@ def Listar_Articulos(request):
     articulos = Articulo.objects.all()
     articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
 
-    articulos_paginados = paginar_articulos(request, articulos_ordenados, 2, 6)[0]
-    rango_paginas = paginar_articulos(request, articulos_ordenados, 2, 6)[1]
+    articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
+    rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
 
     ultimos_5 = ultimos_n_por_fecha(5)
     
@@ -51,8 +52,8 @@ def Filtrar_Categoria(request, pk):
     valor_a_ordenar = request.GET.get('orden', None)
     articulos_ordenados = ordenar_articulos(articulos_filtrados, valor_a_ordenar)
 
-    articulos_paginados = paginar_articulos(request, articulos_ordenados, 1, 6)[0]
-    rango_paginas = paginar_articulos(request, articulos_ordenados, 1, 6)[1]
+    articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
+    rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
 
     categorias_bd = Categoria.objects.all()
 
@@ -112,7 +113,7 @@ def Crear_Articulo(request):
     populares = obtener_n_populares(5)
     articulos_populares_footer = populares[:3]
     
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_staff:
         form = ArticuloForm(request.POST, request.FILES)
         if form.is_valid():
             articulo = form.save(commit=False)
@@ -128,12 +129,17 @@ def Crear_Articulo(request):
     }
     return render(request, 'Articulos/crear_articulo.html', context)
 
-class EditarArticulo(UpdateView, LoginRequiredMixin):
+class EditarArticulo(UpdateView, LoginRequiredMixin, UserPassesTestMixin):
     model = Articulo
     form_class = FormularioEditarArticulo
     template_name = 'Articulos/editar_articulo.html'
-    #Verificacion de que el comentario es del usuario que hace la request      
-
+        
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    def handle_no_permission(self):
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.pk})
     
@@ -147,11 +153,16 @@ class EditarArticulo(UpdateView, LoginRequiredMixin):
         context['articulos_populares_footer'] = articulos_populares_footer
         return context
     
-class EliminarArticulo(DeleteView, LoginRequiredMixin):
+class EliminarArticulo(DeleteView, LoginRequiredMixin, UserPassesTestMixin):
     model = Articulo
     template_name = 'Articulos/eliminar_articulo.html'
-    #Verificacion de que el comentario es del usuario que hace la request      
-
+    
+    def test_func(self):
+        return self.request.user.is_staff
+    
+    def handle_no_permission(self):
+        return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+    
     def get_success_url(self):
         return reverse_lazy('articulos:path_listar_articulos')
 
@@ -191,8 +202,8 @@ def BuscarArticulo(request):
         valor_a_ordenar = request.GET.get('orden', None)
         articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
 
-        articulos_paginados = paginar_articulos(request, articulos_ordenados, 2, 6)[0]
-        rango_paginas = paginar_articulos(request, articulos_ordenados, 2, 6)[1]
+        articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
+        rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
 
         ultimos_5 = ultimos_n_por_fecha(5)
 

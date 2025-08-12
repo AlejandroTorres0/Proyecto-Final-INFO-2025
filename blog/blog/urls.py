@@ -14,8 +14,7 @@ urlpatterns = [
     path('', views.Index, name = "path_index"),
     path('Sobre_nosotros/', views.sobre_nosotros, name = "path_sobre_nosotros"),
     path('Novedades/', views.novedades, name = "path_novedades"),
-    path('Contactanos/', views.contactanos, name = "path_contactanos"),
-    
+        
     #Incluir las apps
     path('Articulos/', include('apps.articulos.urls')),
     path('Usuarios/', include('apps.usuarios.urls')),
