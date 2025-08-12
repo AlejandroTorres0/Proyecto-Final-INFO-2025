@@ -1,34 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block contenido_cuerpo %}
-
     <div class="mt-40">
         <form method="POST">
             {% csrf_token %}
-            <div style="display: flex;justify-content: center;align-items: center; flex-direction: column;margin: 5%; margin-bottom: 2% !important;">
-                <div><h3>REGISTRO DE USUARIO</h3></div>
+            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 5%; margin-bottom: 2% !important;">
+                <div><h3>CAMBIAR CONTRASEÑA</h3></div>
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 offset-md-3">
+                    <div class="col-md-4 offset-md-4">                      
                         {{form.as_p}}
-                        {{ form.errors }}
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center" style="margin: 33%; margin-top: 3% !important; margin-bottom: 10% !important;">
+            <div class="d-flex justify-content-between align-items-center" style="margin: 33%; margin-top: 5% !important; margin-bottom: 10% !important;">
                 <div class="form-group">
                     <a href="{% url 'path_index' %}" class="button button-contactForm btn_1 boxed-btn">
                         CANCELAR
                     </a>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="button button-contactForm btn_1 boxed-btn">REGISTRAR</button>
+                    <button type="submit" class="button button-contactForm btn_1 boxed-btn">CAMBIAR</button>
                 </div>
             </div>
         </form>
     </div>
-
-{% endblock contenido_cuerpo %}
+{%endblock contenido_cuerpo %}

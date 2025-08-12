@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from categorias.models import Categoria
+from apps.categorias.models import Categoria
 
 # Create your models here.
 class Articulo(models.Model):

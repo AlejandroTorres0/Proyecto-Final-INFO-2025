@@ -4,18 +4,58 @@
 
 
 {% block contenido_cuerpo %}
-
-    <h4>LOGIN</h4>
-
-    <form method="POST">{% csrf_token %}
-        {{form.errors}}
-
-        <input type="text" name="username">
-        <input type="password" name="password">
-        <button type="sumbit">Aceptar</button>
-
-
-    </form>
-
-    
-    {%endblock contenido_cuerpo %}
+    {%if user.is_authenticated %}
+        <div class="d-flex align-items-center justify-content-center" style="margin: 10% !important;">
+            <h3>Ya estas logeado.</h3>
+        </div>
+        <div class="d-flex justify-content-between align-items-center" style="margin: 33%; margin-top: 10% !important; margin-bottom: 10% !important;">
+            <div class="form-group">
+                <a href="{% url 'path_index' %}" class="button button-contactForm btn_1 boxed-btn">
+                    VOLVER
+                </a>
+            </div>
+            <div class="form-group">
+                <form method="POST" action="{% url 'usuarios:path_logout' %}">
+                    {% csrf_token %}
+                    <button class="button button-contactForm btn_1 boxed-btn">
+                        LOG OUT 
+                    </button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="mt-40">
+            <form method="POST">
+                {% csrf_token %}
+                <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 5%; margin-bottom: 2% !important;">
+                    <div><h3>LOG IN</h3></div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 offset-md-4">                      
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="username" placeholder="Ingresa tu nombre de usuario">
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña">
+                            </div>
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="margin: 33%; margin-top: 5% !important; margin-bottom: 10% !important;">
+                    <div class="form-group">
+                        <a href="{% url 'path_index' %}" class="button button-contactForm btn_1 boxed-btn">
+                            CANCELAR
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="button button-contactForm btn_1 boxed-btn">INGRESAR</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+{%endblock contenido_cuerpo %}

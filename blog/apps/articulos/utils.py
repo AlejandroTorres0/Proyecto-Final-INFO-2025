@@ -1,5 +1,6 @@
 from django.core.paginator import Paginator
 from .models import Articulo 
+from django.db.models import Count 
 
 ORDENES = {
     'fecha-asc': ['creado'],
@@ -8,6 +9,8 @@ ORDENES = {
     'cat-dsc': ['-categoria'],
     'fecha-cat-asc': ['creado', 'categoria'],
     'fecha-cat-dsc': ['-creado', '-categoria'],
+    'titulo-asc': ['titulo', '-creado'],
+    'titulo-dsc': ['-titulo', '-creado'],
 }
 
 def ordenar_articulos(queryset, orden):
@@ -49,3 +52,10 @@ def obtener_siguiente_anterior(articulo_actual):
 
 def ultimos_n_por_fecha(num_articulos):
     return Articulo.objects.order_by('-creado')[:num_articulos]
+
+def obtener_n_populares(num_populares):
+    #return Articulo.objects.order_by('-likes')[:num_populares] #Devuelve el orden en el que di like, como por fecha, no por cantidad de likes
+    return Articulo.objects.annotate(num_likes=Count('likes')).order_by('-num_likes')[:num_populares]
+
+def obtener_n_portada(num_portada):
+    return Articulo.objects.annotate(num_likes=Count('likes')).order_by('-num_likes', '-creado')[:num_portada]

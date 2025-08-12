@@ -53,22 +53,22 @@
                             <div class="header-info-left">
                                 <ul>     
                                     <li class="title"><span class="flaticon-energy"></span> Título mas leído</li>
-                                    <li>¡Bitcoin supera su útlimo historico de $120K!</li>
+                                    <li><a href="#" style="color: #cdcfd8">{{articulos_populares.0.titulo}}</a></li>
                                 </ul>
                             </div>
                             <div class="header-info-right">
                                 <ul class="header-date">
                                     {% if user.is_authenticated %}
-                                        <span style="font-weight: bold; font-style: italic;">{{user.username}}</span>
                                         <li>
                                             <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                <button class="genric-btn danger-border circle" type="submit">Salir</button>
+                                                <button style="border:none; background: black;" type="submit">Cerrar Sesión</button>
                                             </form>
                                         </li>                                          
-                                        {% else %}
-                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
-                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
-                                        {% endif %}
+                                    {% else %}
+                                        <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
+                                        <li><a>|</a></li>
+                                        <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                         <!-- Logo -->
                         <div class="col-xl-3 col-lg-3 col-md-3 d-none d-md-block">
                             <div class="logo">
-                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                                <a href="{% url 'path_index' %}"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-9 col-lg-9 col-md-9">
@@ -98,7 +98,7 @@
                         <div class="col-xl-8 col-lg-8 col-md-12 header-flex">
                             <!-- sticky -->
                             <div class="sticky-logo">
-                                <a href="index.html"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                                <a href="{% url 'path_index' %}"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
                             </div>
                             <!-- Main-menu -->
                             <div class="main-menu d-none d-md-block">
@@ -106,25 +106,23 @@
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
                                         <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
-                                        <li><a href="{% url 'categorias:path_ver_categorias' %}">Categorías</a></li>
                                         <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
                                         <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li> 
-                                        {% if user.is_authenticated %} 
+                                        {% if user.is_authenticated %}
+                                            <li><a href="#">Personal</a>
+                                                <ul class="submenu">
+                                                    <li><a href="{% url 'usuarios:path_perfil'%}">Ver Perfil</a></li>
+                                                    <li><a href="{% url 'usuarios:path_cambiar_contrasena'%}">Cambiar Contraseña</a></li>
+                                                </ul>
+                                            </li> 
                                             {% if user.is_staff %}
                                                 <li><a href="#">Admin</a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'articulos:path_crear_articulo'%}">Crear Artículo</a></li>
+                                                        <li><a href="{% url 'categorias:path_crear_categoria'%}">Crear Categoria</a></li>
                                                     </ul>
                                                 </li>
                                             {% endif %}
-                                                <li>
-                                                    <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
-                                                        <button class="genric-btn danger-border circle" type="submit">Salir</button>
-                                                    </form>
-                                                </li>
-                                        {% else %}
-                                            <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
-                                            <li><a href="{% url 'usuarios:path_registro' %}">Registrate</a></li>
                                         {% endif %}                    
                                     </ul>
                                 </nav>
@@ -132,7 +130,8 @@
                         </div>             
                         <div class="col-xl-4 col-lg-4 col-md-4 d-flex justify-content-center align-items-center">
                             {% if user.is_authenticated %}
-                                <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 10%;">BIENVENIDO: {{ user.username }}</p>
+                                <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 7%;">
+                                    BIENVENIDO: {{ user.username }}</p>
                             {% endif %}
                             <div class="header-right f-right">
                                 <!-- Search Nav -->
@@ -173,9 +172,9 @@
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p class="info1">Encontranos en las diferentes plataformas para acceder a lo último en tecnología.</p>
-                                        <p class="info2">Argentina</p>
-                                        <p class="info2">Phone: +01 23456 Cell: +10 (9) 876 543 210</p>
+                                        <p class="info1">Lorem ipsum dolor sit amet, nsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
+                                        <p class="info2">H3504ATE, Arturo Illia 1055, H3504ATE Resistencia, Chaco</p>
+                                        <p class="info2">Teléfono: +0362 15-430-6678</p>
                                         </div>
                                 </div>
                             </div>
@@ -184,38 +183,20 @@
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Posts Populares</h4>
+                                <h4>Artículos Populares</h4>
                             </div>
+                            {% for a in articulos_populares_footer %}
                             <!-- Popular post -->
                             <div class="whats-right-single mb-20">
                                 <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post1.png' %}" alt="">
+                                    <img style="height: 75px; width:75px;" src="{{a.imagen.url}}" alt="">
                                 </div>
                                 <div class="whats-right-cap">
-                                    <h4><a href="details.html">Post Ethereum</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
+                                    <h4><a href="{% url 'articulos:path_articulo_detalle' a.pk %}">{{a.titulo}}</a></h4>
+                                    <p>{{a.usuario}}  |  {{a.creado}}</p> 
                                 </div>
                             </div>
-                            <!-- Popular post -->
-                            <div class="whats-right-single mb-20">
-                                <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post2.png' %}" alt="">
-                                </div>
-                                <div class="whats-right-cap">
-                                    <h4><a href="details.html">Post Anteojos</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
-                                </div>
-                            </div>
-                            <!-- Popular post -->
-                            <div class="whats-right-single mb-20">
-                                <div class="whats-right-img">
-                                    <img src="{% static 'img/gallery/footer_post3.png' %}" alt="">
-                                </div>
-                                <div class="whats-right-cap">
-                                    <h4><a href="details.html">Post Deliverys</a></h4>
-                                    <p>Jhon  |  2 hours ago</p> 
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
