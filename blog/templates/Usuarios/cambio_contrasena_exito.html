@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contenido_cuerpo %}
+    <div class="mt-40">
+            <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 5%; margin-bottom: 2% !important;">
+                <div><h3>SU CONTRASEÑA FUE CAMBIADA EXITOSAMENTE</h3></div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center" style="margin: 33%; margin-top: 5% !important; margin-bottom: 10% !important;">
+                <div class="form-group">
+                    <a href="{% url 'path_index' %}" class="button button-contactForm btn_1 boxed-btn">
+                        CONTINUAR
+                    </a>
+                </div>
+            </div>
+    </div>
+{%endblock contenido_cuerpo %}

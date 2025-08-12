@@ -108,6 +108,10 @@ def Detalle_Articulo(request, pk):
 
 @login_required
 def Crear_Articulo(request):
+    #Base
+    populares = obtener_n_populares(5)
+    articulos_populares_footer = populares[:3]
+    
     if request.method == 'POST':
         form = ArticuloForm(request.POST, request.FILES)
         if form.is_valid():
@@ -117,7 +121,12 @@ def Crear_Articulo(request):
             return HttpResponseRedirect(reverse_lazy('articulos:path_listar_articulos'))
     else:
         form = ArticuloForm()
-    return render(request, 'Articulos/crear_articulo.html', {'form': form})
+    context = {
+        'form': form, 
+        'articulos_populares': populares,
+        'articulos_populares_footer': articulos_populares_footer
+    }
+    return render(request, 'Articulos/crear_articulo.html', context)
 
 class EditarArticulo(UpdateView, LoginRequiredMixin):
     model = Articulo

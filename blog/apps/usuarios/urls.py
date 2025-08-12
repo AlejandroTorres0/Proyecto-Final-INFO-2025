@@ -11,4 +11,9 @@ urlpatterns = [
 
     path('Registro/',views.RegistroUsuario.as_view(), name = 'path_registro'),
 
+    path('CambiarContrasena/', views.CambiarContrasenaViewPersonalizada.as_view(), name='path_cambiar_contrasena'),
+    path('CambiarContrasenaExito/', views.CambiarContrasenaExito, name='path_cambiar_contrasena_exito'),
+
+    path('EditarPerfil/', views.EditarPerfil, name='path_editar_perfil'),
+    path('Perfil/', views.VerPerfil, name='path_perfil')
 ]
