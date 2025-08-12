@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.categorias.models import Categoria
+from django.utils.text import slugify
 
 # Create your models here.
 class Articulo(models.Model):
@@ -9,7 +10,7 @@ class Articulo(models.Model):
     creado = models.DateTimeField(auto_now_add=True)    
     modificado = models.DateTimeField(auto_now=True)
     titulo = models.CharField(max_length=150)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     imagen = models.ImageField(upload_to = 'articulos')
     contenido = models.TextField()
     categoria = models.ForeignKey(Categoria, on_delete = models.CASCADE)
@@ -21,6 +22,11 @@ class Articulo(models.Model):
     
     def misComentarios(self):
         return self.comentario_set.all()
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+        super().save(*args, **kwargs)
 
 class LikeArticulo(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

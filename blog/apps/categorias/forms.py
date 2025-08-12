@@ -8,3 +8,11 @@ class CategoriaForm(forms.ModelForm):
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'single-input', 'placeholder': 'Nombre'}),
         }
+
+class FormularioEditarCategoria(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['nombre']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'single-input', 'placeholder': 'Nombre'}),
+        }

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block contenido_cuerpo %}
+    {%if user.is_staff %}
+        <div class="mt-40">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin: 5%;">
+                    <div><h3>EDITAR CATEGORIA</h3></div>
+                </div>
+                <div class="formulario-editar-art" style="display: flex; justify-content: space-between; align-items: center; flex-direction: column; gap: 20%">
+                    {{ form.as_p }}
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="gap: 15%; margin: 20%; margin-top: 10% !important;">
+                    <div class="form-group">
+                        <a href="{% url 'path_index' %}" class="button button-contactForm btn_1 boxed-btn">
+                            CANCELAR
+                        </a>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="button button-contactForm btn_1 boxed-btn">EDITAR</button>
+                    </div>
+                    <div class="form-group">
+                        <a href="{% url 'categorias:path_eliminar_categoria' object.pk %}" class="button button-contactForm btn_1 boxed-btn">
+                            ELIMINAR
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center" style="margin: 10% !important;">
+            <h3>Nada que ver aquí</h3>
+        </div>
+    {% endif %}
+{% endblock contenido_cuerpo %}

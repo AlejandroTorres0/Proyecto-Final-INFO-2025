@@ -26,7 +26,7 @@
                                     <p>{{a.resumen}}</p>
                                     <ul class="blog-info-link">
                                         <li><a href="{% url 'articulos:path_filtrar_categoria' a.categoria.pk %}"><i class="fa fa-user"></i>{{a.categoria}}</a></li>
-                                        <li><a href="#"><i class="fa fa-comments"></i>{{a.misComentarios.count}} Comentarios</a></li>
+                                        <li><a href="{% url 'articulos:path_articulo_detalle' a.pk %}#comentarios"><i class="fa fa-comments"></i>{{a.misComentarios.count}} Comentarios</a></li>
                                     </ul>
                                 </div>
                             </article>
@@ -149,9 +149,14 @@
                             <ul class="list cat-list">
                                 {% for c in categorias %}
                                     <li>
+                                        <div class="d-flex justify-content-between">
                                         <a href="{% url 'articulos:path_filtrar_categoria' c.pk %}" class="d-flex">
                                             <p>{{c.nombre}} ({{c.articulosRelacionados.count}})</p>
                                         </a>
+                                        {% if request.user.is_staff %}
+                                            <div><a href="{% url 'categorias:path_editar_categoria' c.id %}"><img src="{% static 'img/iconos/write.png' %}"></a></div>
+                                        {% endif %}
+                                        </div>
                                     </li>
                                 {% endfor %}
                             </ul>

@@ -26,7 +26,7 @@
                                     <p>{{a.resumen}}</p>
                                     <ul class="blog-info-link">
                                         <li><a href="{% url 'articulos:path_filtrar_categoria' a.categoria.pk %}"><i class="fa fa-user"></i>{{a.categoria}}</a></li>
-                                        <li><a href="#"><i class="fa fa-comments"></i>{{a.misComentarios.count}} Comentarios</a></li>
+                                        <li><a href="{% url 'articulos:path_articulo_detalle' a.pk %}#comentarios"><i class="fa fa-comments"></i>{{a.misComentarios.count}} Comentarios</a></li>
                                     </ul>
                                 </div>
                             </article>
@@ -152,9 +152,14 @@
                             <ul class="list cat-list">
                                 {% for c in categorias %}
                                     <li>
+                                        <div class="d-flex justify-content-between">
                                         <a href="{% url 'articulos:path_filtrar_categoria' c.pk %}" class="d-flex">
                                             <p>{{c.nombre}} ({{c.articulosRelacionados.count}})</p>
                                         </a>
+                                        {% if request.user.is_staff %}
+                                            <div><a href ="{% url 'categorias:path_editar_categoria' c.pk %}"><img src="{% static 'img/iconos/write.png' %}"></a></div>
+                                        {% endif %}
+                                        </div>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -172,17 +177,6 @@
                                 </div>
                                 </div>
                             {% endfor %}
-                        </aside>
-                        <aside class="single_sidebar_widget newsletter_widget">
-                            <h4 class="widget_title">Suscribite acá!</h4>
-                            <form action="#">
-                                <div class="form-group">
-                                <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Ingresa tu email'" placeholder='Ingresa tu email' required>
-                                </div>
-                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                type="submit">Suscribirse</button>
-                            </form>
                         </aside>
                     </div>
                 </div>
