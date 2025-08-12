@@ -229,9 +229,14 @@
                         <ul class="list cat-list">
                            {% for c in categorias %}
                               <li>
+                                 <div class="d-flex justify-content-between">
                                  <a href="{% url 'articulos:path_filtrar_categoria' c.pk %}" class="d-flex">
                                     <p>{{c.nombre}} ({{c.articulosRelacionados.count}})</p>
                                  </a>
+                                 {% if request.user.is_staff %}
+                                    <div><a href="{% url 'categorias:path_editar_categoria' c.id %}"><img src="{% static 'img/iconos/write.png' %}"></a></div>
+                                 {% endif %}
+                                 </div>
                               </li>
                            {% endfor %}
                         </ul>

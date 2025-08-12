@@ -16,8 +16,10 @@ def Listar_Articulos(request):
     articulos = Articulo.objects.all()
     articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
 
-    articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
-    rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
+    numero_de_articulos_por_pagina = 5
+
+    articulos_paginados = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[0]
+    rango_paginas = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[1]
 
     ultimos_5 = ultimos_n_por_fecha(5)
     
@@ -52,8 +54,10 @@ def Filtrar_Categoria(request, pk):
     valor_a_ordenar = request.GET.get('orden', None)
     articulos_ordenados = ordenar_articulos(articulos_filtrados, valor_a_ordenar)
 
-    articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
-    rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
+    numero_de_articulos_por_pagina = 5
+
+    articulos_paginados = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[0]
+    rango_paginas = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[1]
 
     categorias_bd = Categoria.objects.all()
 
@@ -201,9 +205,11 @@ def BuscarArticulo(request):
 
         valor_a_ordenar = request.GET.get('orden', None)
         articulos_ordenados = ordenar_articulos(articulos, valor_a_ordenar)
+        
+        numero_de_articulos_por_pagina = 5
 
-        articulos_paginados = paginar_articulos(request, articulos_ordenados, 5, 6)[0]
-        rango_paginas = paginar_articulos(request, articulos_ordenados, 5, 6)[1]
+        articulos_paginados = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[0]
+        rango_paginas = paginar_articulos(request, articulos_ordenados, numero_de_articulos_por_pagina, 6)[1]
 
         ultimos_5 = ultimos_n_por_fecha(5)
 

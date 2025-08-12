@@ -103,45 +103,45 @@
                             <ul class="list cat-list">
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=fecha-asc{% endif %}" class="d-flex">
-                                        <p>Fecha: Ascendente</p>
+                                        <p>Fecha: Antiguo</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=fecha-dsc{% endif %}" class="d-flex">
-                                        <p>Fecha: Descendente</p>
+                                        <p>Fecha: Reciente</p>
                                     </a>
                                 </li>
                                 
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=cat-asc{% endif %}" class="d-flex">
-                                        <p>Categoria: Ascendente</p>
+                                        <p>Categoria: Orden Alfabético (A-Z)</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=cat-dsc{% endif %}" class="d-flex">
-                                        <p>Categoria: Descendente</p>
+                                        <p>Categoria: Orden Alfabético (Z-A)</p>
                                     </a>
                                 </li>
                                 
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=fecha-cat-asc{% endif %}" class="d-flex">
-                                        <p>Fecha y Categoria: Ascendente</p>
+                                        <p>Fecha y Categoria: Reciente y (A-Z)</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=fecha-cat-dsc{% endif %}" class="d-flex">
-                                        <p>Fecha y Categoria: Descendente</p>
+                                        <p>Fecha y Categoria: Antiguo y (Z-A)</p>
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=titulo-asc{% endif %}" class="d-flex">
-                                        <p>Titulo: Ascendente</p>
+                                        <p>Titulo: Orden Alfabético (A-Z)</p>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{% if request.path == '/Articulos/BuscarArticulos' %}{% url 'articulos:path_buscar_articulos' %}?buscado={{ buscado }}&page={{ request.GET.page }}&orden=titulo-dsc{% endif %}" class="d-flex">
-                                        <p>Titulo: Descendente</p>
+                                        <p>Titulo: Orden Alfabético (Z-A)</p>
                                     </a>
                                 </li>
                             </ul>
