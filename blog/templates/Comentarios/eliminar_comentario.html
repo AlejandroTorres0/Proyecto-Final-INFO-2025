@@ -5,11 +5,16 @@
         <div class="mt-40">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <h3 style="text-align: center;"><strong>Estas seguro que desa eliminar el comentario: "</strong>{{ object }}<strong>"?</strong></h3>
-                {{ form }}
+                <h3 style="text-align: center;"><strong>¿Estas seguro que desa eliminar el comentario: "</strong>{{ object }}<strong>"?</strong></h3>
+
+                {# Solo mostramos el form si existe #}
+                {% if form %}
+                    {{ form }}
+                {% endif %}
+
                 <div class="d-flex justify-content-between align-items-center" style="margin: 33%; margin-top: 10% !important;">
                     <div class="form-group">
-                        <a href="{% url 'articulos:path_articulo_detalle' object.articulo.pk %}" class="button button-contactForm btn_1 boxed-btn">
+                        <a href="{{ cancel_url }}" class="button button-contactForm btn_1 boxed-btn">
                             CANCELAR
                         </a>
                     </div>

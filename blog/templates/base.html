@@ -8,7 +8,7 @@
     <title>News Blog </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
     <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.ico">
 
     <!-- CSS here -->
@@ -51,9 +51,17 @@
                     <div class="col-xl-12">
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="header-info-left">
-                                <ul>     
+                                <ul>
                                     <li class="title"><span class="flaticon-energy"></span> Título mas leído</li>
-                                    <li><a href="#" style="color: #cdcfd8">{{articulos_populares.0.titulo}}</a></li>
+                                    {% if articulos_populares and articulos_populares.0 %}
+                                        <li>
+                                            <a href="{% url 'articulos:path_articulo_detalle' articulos_populares.0.pk %}" style="color: #cdcfd8">
+                                                {{ articulos_populares.0.titulo }}
+                                            </a>
+                                        </li>
+                                    {% else %}
+                                        <li>No hay artículos populares</li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <div class="header-info-right">
@@ -63,7 +71,7 @@
                                             <form method="POST" action="{% url 'usuarios:path_logout' %}">{% csrf_token %}
                                                 <button style="border:none; background: black;" type="submit">Cerrar Sesión</button>
                                             </form>
-                                        </li>                                          
+                                        </li>
                                     {% else %}
                                         <li><a href="{% url 'usuarios:path_login' %}">Logeate</a></li>
                                         <li><a>|</a></li>
@@ -102,19 +110,19 @@
                             </div>
                             <!-- Main-menu -->
                             <div class="main-menu d-none d-md-block">
-                                <nav>                  
+                                <nav>
                                     <ul id="navigation">
                                         <li><a href="{% url 'path_index' %}">Inicio</a></li>
                                         <li><a href="{% url 'path_sobre_nosotros' %}">Nosotros</a></li>
                                         <li><a href="{% url 'path_novedades' %}">Novedades</a></li>
-                                        <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li> 
+                                        <li><a href="{% url 'articulos:path_listar_articulos' %}">Noticias</a></li>
                                         {% if user.is_authenticated %}
                                             <li><a href="#">Personal</a>
                                                 <ul class="submenu">
                                                     <li><a href="{% url 'usuarios:path_perfil'%}">Ver Perfil</a></li>
                                                     <li><a href="{% url 'usuarios:path_cambiar_contrasena'%}">Cambiar Contraseña</a></li>
                                                 </ul>
-                                            </li> 
+                                            </li>
                                             {% if user.is_staff %}
                                                 <li><a href="#">Admin</a>
                                                     <ul class="submenu">
@@ -123,11 +131,11 @@
                                                     </ul>
                                                 </li>
                                             {% endif %}
-                                        {% endif %}                    
+                                        {% endif %}
                                     </ul>
                                 </nav>
                             </div>
-                        </div>             
+                        </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 d-flex justify-content-center align-items-center">
                             {% if user.is_authenticated %}
                                 <p class="w-100" style="color: white; font-weight: bold; font-style: italic; margin-right: 10%; margin-left: 10%; margin-top: 7%;">
@@ -150,13 +158,13 @@
         </div>
     </div>
     <!-- Header End -->
-</header>   
+</header>
     <div class="cuerpo">
         {% block contenido_cuerpo %}
-        
+
         {%endblock contenido_cuerpo %}
     </div>
-    
+
 <footer>
     <!-- Footer Start-->
     <div class="footer-main footer-bg">
@@ -185,18 +193,23 @@
                             <div class="footer-tittle">
                                 <h4>Artículos Populares</h4>
                             </div>
-                            {% for a in articulos_populares_footer %}
-                            <!-- Popular post -->
-                            <div class="whats-right-single mb-20">
-                                <div class="whats-right-img">
-                                    <img style="height: 75px; width:75px;" src="{{a.imagen.url}}" alt="">
-                                </div>
-                                <div class="whats-right-cap">
-                                    <h4><a href="{% url 'articulos:path_articulo_detalle' a.pk %}">{{a.titulo}}</a></h4>
-                                    <p>{{a.usuario}}  |  {{a.creado}}</p> 
-                                </div>
-                            </div>
-                            {% endfor %}
+                                {% if articulos_populares_footer %}
+                                    {% for a in articulos_populares_footer %}
+                                        {% if a %}
+                                        <div class="whats-right-single mb-20">
+                                            <div class="whats-right-img">
+                                                <img style="height: 75px; width:75px;" src="{{ a.imagen.url }}" alt="">
+                                            </div>
+                                            <div class="whats-right-cap">
+                                                <h4><a href="{% url 'articulos:path_articulo_detalle' a.pk %}">{{ a.titulo }}</a></h4>
+                                                <p>{{ a.usuario }}  |  {{ a.creado }}</p>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No hay artículos populares para mostrar</p>
+                                {% endif %}
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
@@ -267,15 +280,15 @@
     <script src="{% static 'js/jquery.scrollUp.min.js' %}"></script>
     <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
     <script src="{% static 'js/jquery.sticky.js' %}"></script>
-    
+
     <!-- contact js -->
     <script src="{% static 'js/contact.js' %}"></script>
     <script src="{% static 'js/jquery.form.js' %}"></script>
     <script src="{% static 'js/jquery.validate.min.js' %}"></script>
     <script src="{% static 'js/mail-script.js' %}"></script>
     <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-    
-    <!-- Jquery Plugins, main Jquery -->	
+
+    <!-- Jquery Plugins, main Jquery -->
     <script src="{% static 'js/plugins.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/likes.js' %}"></script>

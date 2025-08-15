@@ -3,7 +3,7 @@ from apps.articulos.utils import obtener_n_populares, ultimos_n_por_fecha, obten
 from apps.articulos.models import Articulo
 from apps.categorias.models import Categoria
 
-def Index(request): 
+def Index(request):
     populares = obtener_n_populares(5)
     primeros_populares = populares[:2]
 
@@ -27,7 +27,7 @@ def Index(request):
     return render(request, 'index.html', context)
 
 def sobre_nosotros(request):
-    
+
     populares = obtener_n_populares(5)
     articulos_populares_footer = populares[:3]
 
@@ -35,11 +35,11 @@ def sobre_nosotros(request):
         'articulos_populares': populares,
         'articulos_populares_footer': articulos_populares_footer,
     }
-    return render(request, 'Sobre_nosotros.html', context)
+    return render(request, 'sobre_nosotros.html', context)
 
 def novedades(request):
     categorias_bd = Categoria.objects.all()[:5]
-        
+
     populares = obtener_n_populares(5)
     articulos_populares_footer = obtener_n_populares(3)
 
@@ -58,4 +58,4 @@ def novedades(request):
         'articulos_populares': populares,
         'articulos_populares_footer': articulos_populares_footer
     }
-    return render(request, 'Novedades.html', context)   
+    return render(request, 'novedades.html', context)

@@ -3,6 +3,7 @@ import sys, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR_STR = str(BASE_DIR)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 
@@ -58,6 +59,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blog.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SantiagoJR$default',
+        'USER': 'SantiagoJR',
+        'PASSWORD': 'database123',
+        'HOST': 'SantiagoJR.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -92,10 +103,10 @@ USE_TZ = True
 # -----------------------
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = os.path.join(BASE_DIR_STR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR_STR, 'media')
 
 
 

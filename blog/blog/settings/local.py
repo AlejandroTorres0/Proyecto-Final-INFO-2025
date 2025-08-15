@@ -4,8 +4,12 @@ from .base import *
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SantiagoJR$default',
+        'USER': 'SantiagoJR',
+        'PASSWORD': 'database123',
+        'HOST': 'SantiagoJR.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 
@@ -16,4 +20,4 @@ SECRET_KEY = 'django-insecure-5u&y@^gawn!g36yti@_v8*+!lm4gn2gr3*ww5$4%j&2bpk@v4+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['santiagojr.pythonanywhere.com'] #Dominio brindado por pythonanywhere
