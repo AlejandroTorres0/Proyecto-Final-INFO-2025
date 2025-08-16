@@ -12,7 +12,7 @@ urlpatterns = [
     #2* Parametro, que es la vista
     #3* Parametro, que es el nombre del path
     path('', views.Index, name = "path_index"),
-    path('Sobre_nosotros/', views.sobre_nosotros, name = "path_sobre_nosotros"),
+    path('SobreNosotros/', views.sobre_nosotros, name = "path_sobre_nosotros"),
     path('Novedades/', views.novedades, name = "path_novedades"),
         
     #Incluir las apps

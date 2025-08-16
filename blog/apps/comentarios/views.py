@@ -19,29 +19,31 @@ def Comentar(request, pk):
     return HttpResponseRedirect(reverse_lazy('articulos:path_articulo_detalle', kwargs = {'pk': pk} ))
 
 
-class EditarComentario(UpdateView, LoginRequiredMixin, UserPassesTestMixin): 
+class EditarComentario(LoginRequiredMixin, UserPassesTestMixin, UpdateView): 
     model = Comentario
     form_class = FormularioEditarComentario
-    template_name = 'Comentarios/editar_comentario.html'
+    template_name = 'comentarios/editar_comentario.html'
 
-    def dispatch(self, request, *args, **kwargs):
+    def test_func(self):
         comentario = self.get_object()
-        if not (comentario.usuario == request.user or request.user.is_staff):
-            return HttpResponseForbidden("No tienes permiso para editar este comentario.")
-        return super().dispatch(request, *args, **kwargs)
+        return self.request.user == comentario.usuario or self.request.user.is_staff
     
+    def handle_no_permission(self):
+        return HttpResponseForbidden("No tienes permiso para editar este comentario.")
+
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.articulo.pk})
 
-class EliminarComentario(DeleteView, LoginRequiredMixin, UserPassesTestMixin): 
+class EliminarComentario(LoginRequiredMixin, UserPassesTestMixin, DeleteView): 
     model = Comentario
-    template_name = 'Comentarios/eliminar_comentario.html'
+    template_name = 'comentarios/eliminar_comentario.html'
 
-    def dispatch(self, request, *args, **kwargs):
+    def test_func(self):
         comentario = self.get_object()
-        if not (comentario.usuario == request.user or request.user.is_staff):
-            return HttpResponseForbidden("No tienes permiso para eliminar este comentario.")
-        return super().dispatch(request, *args, **kwargs)
+        return self.request.user == comentario.usuario or self.request.user.is_staff
+    
+    def handle_no_permission(self):
+        return HttpResponseForbidden("No tienes permiso para eliminar este comentario.")
     
     def get_success_url(self):
         return reverse_lazy('articulos:path_articulo_detalle', kwargs={'pk':self.object.articulo.pk})
